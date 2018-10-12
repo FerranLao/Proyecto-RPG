@@ -5,12 +5,15 @@ function Game(){
   this.map = new Map(this);
   this.char = new Character(this);
   this.combat = new Combat(this);
-  this.enemy= new Enemies(this);
+  this.enemy = new Enemies(this);
   this.combatStatus = false;
 };
 
 Game.prototype.start = function (){
   window.requestAnimationFrame(print);
+}
+Game.prototype.newEnemy = function(){
+  this.enemy= new Enemies(this);
 }
 
 function print() {

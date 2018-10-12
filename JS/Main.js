@@ -8,9 +8,10 @@ window.onload = function() {
       game.char.move(e.key);
       game.char.combatStart();
     } else {
-      game.enemy = new Enemies(game);
+      
       game.char.attack();
       if (game.char.win()) {
+        game.newEnemy()
         game.combatStatus = false;
       }
     }
