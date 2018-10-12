@@ -1,0 +1,24 @@
+.combat_menu {
+  height: 200px;
+  width: 800px;
+  background-color: blue;
+  position: absolute;
+  top: 400px;
+}
+.on {
+  opacity: 1;
+}
+.off {
+  opacity: 0;
+}
+#canvas_div{
+    width: 100%;
+    text-align: center;
+}
+#canvas {
+  height: 800px;
+  width: 1200px;
+}
+body{
+    margin:0;
+}
