@@ -5,15 +5,14 @@ function Game(){
   this.map = new Map(this);
   this.char = new Character(this);
   this.combat = new Combat(this);
+  this.enemy= new Enemies(this);
   this.combatStatus = false;
-
- 
 };
 
 Game.prototype.start = function (){
-  game = this
   window.requestAnimationFrame(print);
 }
+
 function print() {
   if (!game.combatStatus) {
     game.map.printMap();

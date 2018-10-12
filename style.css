@@ -1,9 +1,11 @@
 .combat_menu {
-  height: 200px;
-  width: 800px;
+  height: 170px;
+  width: 1200px;
   background-color: blue;
   position: absolute;
-  top: 400px;
+  margin: 0;
+  top: 630px;
+  left: 10%;
 }
 .on {
   opacity: 1;
@@ -12,13 +14,10 @@
   opacity: 0;
 }
 #canvas_div{
-    width: 100%;
-    text-align: center;
+    
+    margin: 0 10%
 }
-#canvas {
-  height: 800px;
-  width: 1200px;
-}
+
 body{
     margin:0;
 }
