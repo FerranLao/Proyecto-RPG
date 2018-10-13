@@ -2,7 +2,7 @@ function Character(game) {
   //valores personaje
   this.game = game;
   this.level = 1;
-  this.maxHP = 20 + 10 * this.level; //+mods
+  this.maxHP = 50 + 10 * this.level; //+mods
   this.currentHP = this.maxHP;
   this.maxMP = 100 + 20 * this.level;
   this.currentMP = this.maxMP + 20 * this.level;
@@ -28,6 +28,9 @@ Character.prototype.print = function() {
 };
 
 Character.prototype.attack = function() {
+  if(this.game.enemy.def = true){
+    this.game.enemy.currentHP = game.enemy.currentHP - this.strength/2;
+  }else
   this.game.enemy.currentHP = game.enemy.currentHP - this.strength;
 };
 
@@ -63,9 +66,9 @@ Character.prototype.move = function(key) {
   }
 };
 
-Character.prototype.defense = function() {};
-
-Character.prototype.lvlUp = function() {};
+Character.prototype.defense = function() {  
+  this.def = true;  
+};
 
 Character.prototype.win = function() {
   if (this.game.enemy.currentHP <= 0) {

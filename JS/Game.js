@@ -7,6 +7,7 @@ function Game(){
   this.combat = new Combat(this);
   this.enemy = new Enemies(this);
   this.combatStatus = false;
+  
 };
 
 Game.prototype.start = function (){

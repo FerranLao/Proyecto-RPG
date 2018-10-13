@@ -9,17 +9,54 @@ window.onload = function() {
       game.char.combatStart();
     }
   };
-};
-window.onkeyup = function() {
-  if (game.combatStatus) {
-    game.char.attack();
-    game.enemy.attack();
+
+  function attackBtn() {
+    if (game.combatStatus) {
+      delay(attackBtn);
+      game.char.attack();
+      setTimeout(function() {
+        game.enemy.attack();
+      }, 500);
+      checkWin();
+      
+    }
+  }
+  document.getElementById("atkbtn").addEventListener("click", attackBtn);
+
+  function defenseBtn() {
+    if (game.combatStatus) {
+      delay();
+      game.char.defense();
+      setTimeout(function() {
+        game.enemy.attack();
+      }, 500);
+      checkWin()
+    }
+  }
+  document.getElementById("defbtn").addEventListener("click", defenseBtn);
+  
+  
+  function checkWin(){
     if (game.char.win()) {
+      game.char.currentHP=game.char.maxHP;
+      game.enemy.giveExp()
       game.newEnemy();
       game.combatStatus = false;
     }
-    if(game.char.lose()){
+    if (game.char.lose()) {
+    }
+  }
+
+  function delay() {
+    var container=document.getElementById("button_container")
+    if(container.className.includes("pointer")){
+      container.className.replace("pointer","")
       
+    }else{
+      container.classList.add("pointer");
+      setTimeout(function(){
+        container.className="";
+      },1000)
     }
   }
 };
