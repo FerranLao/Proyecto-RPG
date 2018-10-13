@@ -1,10 +1,11 @@
 function Enemies(game){
     this.game=game;
-    this.maxHP = 500//Math.round(Math.random()*(20-40)+20)+this.level*5;
+    this.level = this.game.char.level;
+    this.maxHP = Math.round(Math.random()*(40 - 20)+20)+this.level*5;
     this.currentHP = this.maxHP;
-    this.strenght = Math.round(Math.random()*(3-7));
+    this.strenght = Math.round(Math.random()*(7-3)+3);
     this.critChance = 5;
-    this.level = Character.level;
+    
     this.givenExp = Math.round(Math.random()*(200-300)+200);
     this.defense = false;
     this.nameArr = [];
@@ -13,6 +14,7 @@ function Enemies(game){
 }
 
 Enemies.prototype.attack = function(){
+    this.game.char.currentHP = this.game.char.currentHP - this.strenght;
 
 }
 

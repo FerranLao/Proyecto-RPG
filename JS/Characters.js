@@ -1,13 +1,13 @@
 function Character(game) {
   //valores personaje
   this.game = game;
-  this.maxHP = 100 //+ 20 * this.level; //+mods
+  this.level = 1;
+  this.maxHP = 20 + 10 * this.level; //+mods
   this.currentHP = this.maxHP;
   this.maxMP = 100 + 20 * this.level;
   this.currentMP = this.maxMP + 20 * this.level;
-  this.strength = 10 //+ (2 * this.level);
+  this.strength = 10 + 2 * this.level;
   this.magStrength = 10 + 2 * this.level;
-  this.level = 1;
   this.currentExp = 0;
   this.needExp = 500 + 100 * this.level;
   this.critChance = 5 + this.level;
@@ -28,8 +28,7 @@ Character.prototype.print = function() {
 };
 
 Character.prototype.attack = function() {
-  game.enemy.currentHP= game.enemy.currentHP -this.strength;
-  console.log(this.game.enemy.currentHP)
+  this.game.enemy.currentHP = game.enemy.currentHP - this.strength;
 };
 
 Character.prototype.move = function(key) {
@@ -69,18 +68,23 @@ Character.prototype.defense = function() {};
 Character.prototype.lvlUp = function() {};
 
 Character.prototype.win = function() {
-  if(this.game.enemy.currentHP<=0){
+  if (this.game.enemy.currentHP <= 0) {
+    document.querySelector(".combat_menu").className = "combat_menu off";
     return true;
   }
 };
 
-Character.prototype.lose = function() {};
+Character.prototype.lose = function() {
+  if (this.game.char.currentHP<=0){
+    alert("YOU LOSE")
+    return true;
+  }
+};
 
 Character.prototype.combatStart = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= this.combatChance) {
     this.game.combatStatus = true;
-    console.log("combat");
     return true;
   }
 };

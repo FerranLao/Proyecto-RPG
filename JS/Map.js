@@ -13,8 +13,6 @@ function Map(game){
 Map.prototype.printMap = function(){
     var ctx=this.game.ctx;
     ctx.drawImage(this.img, 0,0,this.game.canvas.width, this.game.canvas.height)
-    // ctx.fillStyle="#3BFF00"
-    // ctx.fillRect(0,0,this.game.canvas.width, this.game.canvas.height);
     // ctx.fillStyle = "#7D8B72";
     // ctx.fillRect(this.safePointX1,0, 60, this.game.canvas.height);
     // ctx.fillRect(0,this.safePointY1,this.game.canvas.width,60);
