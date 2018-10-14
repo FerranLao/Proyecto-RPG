@@ -18,7 +18,6 @@ window.onload = function() {
         game.enemy.attack();
       }, 500);
       checkWin();
-      
     }
   }
   document.getElementById("atkbtn").addEventListener("click", attackBtn);
@@ -30,16 +29,40 @@ window.onload = function() {
       setTimeout(function() {
         game.enemy.attack();
       }, 500);
-      checkWin()
+      checkWin();
     }
   }
   document.getElementById("defbtn").addEventListener("click", defenseBtn);
-  
-  
-  function checkWin(){
+
+  function runBtn() {
+    if (game.combatStatus) {
+      delay();
+      if (game.char.Run()) {
+        game.combatStatus = false;
+        game.newEnemy();
+      } else {
+        game.enemy.attack();
+      }
+    }
+  }
+  document.getElementById("runbtn").addEventListener("click", runBtn);
+
+  function magBtn() {
+    if (game.combatStatus) {
+      delay();
+      game.char.fireBall();
+      setTimeout(function() {
+        game.enemy.attack();
+      }, 500);
+      checkWin();
+    }
+  }
+  document.getElementById("magbtn").addEventListener("click", magBtn);
+
+  function checkWin() {
     if (game.char.win()) {
-      game.char.currentHP=game.char.maxHP;
-      game.enemy.giveExp()
+      game.char.currentHP = game.char.maxHP;
+      game.enemy.giveExp();
       game.newEnemy();
       game.combatStatus = false;
     }
@@ -48,15 +71,14 @@ window.onload = function() {
   }
 
   function delay() {
-    var container=document.getElementById("button_container")
-    if(container.className.includes("pointer")){
-      container.className.replace("pointer","")
-      
-    }else{
+    var container = document.getElementById("button_container");
+    if (container.className.includes("pointer")) {
+      container.className.replace("pointer", "");
+    } else {
       container.classList.add("pointer");
-      setTimeout(function(){
-        container.className="";
-      },1000)
+      setTimeout(function() {
+        container.className = "";
+      }, 1000);
     }
   }
 };

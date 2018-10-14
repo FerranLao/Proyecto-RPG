@@ -1,7 +1,7 @@
 .combat_menu {
   height: 170px;
   width: 1200px;
-  background-color: blue;
+  background-color: white;
   position: absolute;
   margin: 0;
   top: 630px;
@@ -24,4 +24,41 @@
 
 body{
     margin:0;
+}
+#button_container{
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  
+}
+#button_container button{
+
+  height: 170px;
+  width: 20%;
+  
+  
+
+}
+#atkbtn{
+  background-image: url(./images/spin_attack_icon_by_bbricker87-d7sn46v.png);
+  background-size: 100% 100%
+}
+#defbtn{
+  background-image: url(./images/shield-icon.png);
+  background-size: 100% 100%
+}
+#magbtn{
+  background-image: url(./images/magic-icon.png);
+  background-size: 100% 100%
+
+}
+#runbtn{
+  background-image: url(./images/run.png);
+  background-size: 100% 100%
+}
+#objbtn{
+  background-image: url(./images/bag.jpg);
+  border: 5px solid #3BFF00;
+  border-radius: 15px;
+  background-size: 100% 100%
 }

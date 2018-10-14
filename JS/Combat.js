@@ -14,11 +14,10 @@ function Combat(game) {
   this.battleBackground.src = "./images/Battleback_veldt_a.png";
   this.healthbar = new Image();
   this.healthbar.src = "./images/health-bar.png";
-  this.enemyimage = new Image();
-  this.enemyimage.src = "./images/Floating_Eye-enemy-ffx.png";
-  this.animation=false;
-  this.shield=new Image()
-  this.shield.src="./images/shield.png";
+
+  this.animation = false;
+  this.shield = new Image();
+  this.shield.src = "./images/shield.png";
 }
 
 Combat.prototype.print = function() {
@@ -35,22 +34,28 @@ Combat.prototype.print = function() {
   ctx.fillRect(640, 555, charHealth, 25);
   ctx.drawImage(this.healthbar, 30, 50, 500, 150);
   ctx.drawImage(this.healthbar, 550, 500, 500, 150);
-  ctx.fillStyle="#000000"
-  ctx.font="25px Arial"
-  ctx.fillText(this.game.enemy.currentHP+"/"+this.game.enemy.maxHP, 250,127);
-  ctx.fillText(this.game.char.currentHP+"/"+this.game.char.maxHP, 780,577);
-  ctx.fillText("Level:"+game.enemy.level,500, 127)
-  ctx.fillText("Level:"+game.char.level,1020, 577)
-  ctx.drawImage(this.enemyimage, this.enemyPosX, this.enemyPosY, 300, 300);
+  ctx.fillStyle = "#000000";
+  ctx.font = "25px Arial";
+  ctx.fillText(
+    this.game.enemy.currentHP + "/" + this.game.enemy.maxHP,
+    250,
+    127
+  );
+  ctx.fillText(this.game.char.currentHP + "/" + this.game.char.maxHP, 780, 577);
+  ctx.fillText("Level:" + game.enemy.level, 500, 127);
+  ctx.fillText("Level:" + game.char.level, 1020, 577);
+  ctx.drawImage(
+    this.game.enemy.enemyimage,
+    this.enemyPosX,
+    this.enemyPosY,
+    300,
+    300
+  );
   ctx.drawImage(this.charImg, this.charPosX, this.charPosY, 500, 700);
-  
-  
-  if(this.game.char.def===true){    
-    ctx.drawImage(this.shield, 480, 500, 80,80);        
+
+  if (this.game.char.def === true) {
+    ctx.drawImage(this.shield, 480, 500, 80, 80);
   }
 };
 
 Combat.prototype.endCombat = function() {};
-
-  
-

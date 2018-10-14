@@ -5,16 +5,30 @@ function Enemies(game) {
   this.currentHP = this.maxHP;
   this.strenght = Math.round(Math.random() * (7 - 3) + 3);
   this.critChance = 5;
-
-  this.givenExp = Math.round(Math.random() * (200 - 300) + 200);
+  this.givenExp = Math.round(Math.random() * (300 - 200) + 200)+30*this.level;
+  this.enemyImgArr=["./images/Enemies/Floating_Eye-enemy-ffx.png","./images/Enemies/FFXIII_enemy_Flanborg.png","./images/Enemies/SW.png","./images/Enemies/Gigant Shadow.png","./images/Enemies/khx-possessor.png","./images/Enemies/patricio.png"]
+  this.enemyimage = new Image();
+  this.enemyimage.src = this.enemyImgArr[Math.floor(Math.random()*(this.enemyImgArr.length))];
   this.def = false;
-  this.nameArr = [];
-  this.name = this.nameArr[
-    Math.floor(Math.random() * (0 - this.nameArr.length))
-  ];
+ 
 }
 
 Enemies.prototype.attack = function() {
+    var that = this
+  var counter = 0;
+  var posx= this.game.combat.enemyPosX;
+  var posy= this.game.combat.enemyPosY;
+  var attackAnimation = setInterval(function(){
+    
+    that.game.combat.enemyPosX-=2;
+    that.game.combat.enemyPosY+=2;
+    counter+=1
+    if(counter===30){
+      clearInterval(attackAnimation);
+      that.game.combat.enemyPosX= posx;
+      that.game.combat.enemyPosY=posy;
+    }
+  },16)
   if ((this.game.char.def === false)) {
     this.game.char.currentHP = this.game.char.currentHP - this.strenght;
     
@@ -30,6 +44,7 @@ Enemies.prototype.giveExp= function(){
     if(this.game.char.currentExp>=this.game.char.needExp){
         this.game.char.level+=1
         this.game.char.currentExp=oldExp + this.givenExp - this.game.char.needExp;
+        this.game.char.lvlUp();
     }
     console.log(this.game.char.currentExp + "/" + this.game.char.needExp);
 }

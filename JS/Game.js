@@ -6,8 +6,7 @@ function Game(){
   this.char = new Character(this);
   this.combat = new Combat(this);
   this.enemy = new Enemies(this);
-  this.combatStatus = false;
-  
+  this.combatStatus = false;  
 };
 
 Game.prototype.start = function (){
