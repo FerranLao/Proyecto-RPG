@@ -18,6 +18,19 @@ function Combat(game) {
   this.animation = false;
   this.shield = new Image();
   this.shield.src = "./images/shield.png";
+  this.fireball=new Image();
+  this.fireball.src="./images/fireball-clipart-comet-14.png";
+  this.fireballX= 350;
+  this.fireballY= 450;
+}
+Combat.prototype.textBar = function(message){
+  var textArea=document.querySelector(".textArea")
+  textArea.innerText= message;
+  textArea.classList.add("show");
+  setTimeout(function(){
+    textArea.classList.remove("show");
+  },500) 
+
 }
 
 Combat.prototype.print = function() {
@@ -52,10 +65,13 @@ Combat.prototype.print = function() {
     300
   );
   ctx.drawImage(this.charImg, this.charPosX, this.charPosY, 500, 700);
-
   if (this.game.char.def === true) {
     ctx.drawImage(this.shield, 480, 500, 80, 80);
   }
+  if(this.game.char.magOn){
+    ctx.drawImage(this.fireball, this.fireballX,this.fireballY, 180, 180)
+
+  }
 };
 
-Combat.prototype.endCombat = function() {};
+

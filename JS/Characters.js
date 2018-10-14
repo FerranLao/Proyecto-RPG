@@ -10,8 +10,9 @@ function Character(game) {
   this.magStrength = 15 + 3 * this.level;
   this.currentExp = 0;
   this.needExp = 500 + 100 * this.level;
-  this.critChance = 5 + this.level;
   this.def = false;
+  this.dmgDone = 0;
+  this.magOn=false
 
   //movimiento
   this.positionX = 490;
@@ -28,26 +29,31 @@ Character.prototype.print = function() {
 };
 
 Character.prototype.attack = function() {
-  var that = this
+  var that = this;
   var counter = 0;
-  var posx= this.game.combat.charPosX;
-  var posy= this.game.combat.charPosY;
-  var attackAnimation = setInterval(function(){
-    
-    that.game.combat.charPosX+=2;
-    that.game.combat.charPosY-=2;
-    counter+=1
-    if(counter===30){
+  var posx = this.game.combat.charPosX;
+  var posy = this.game.combat.charPosY;
+  var attackAnimation = setInterval(function() {
+    that.game.combat.charPosX += 2;
+    that.game.combat.charPosY -= 2;
+    counter += 1;
+    if (counter === 30) {
       clearInterval(attackAnimation);
-      that.game.combat.charPosX= posx;
-      that.game.combat.charPosY=posy;
+      that.game.combat.charPosX = posx;
+      that.game.combat.charPosY = posy;
     }
-  },16)
+  }, 16);
+
   if ((this.game.enemy.def = true)) {
     this.game.enemy.currentHP = game.enemy.currentHP - this.strength / 2;
+    this.dmgDone = Math.round(this.strength / 2);
   } else {
     this.game.enemy.currentHP = game.enemy.currentHP - this.strength;
+    this.dmgDone = this.magStrength;
   }
+  this.game.combat.textBar(
+    "You done " + this.dmgDone + " points of damage"
+  );
 };
 
 Character.prototype.move = function(key) {
@@ -85,6 +91,7 @@ Character.prototype.move = function(key) {
 };
 
 Character.prototype.defense = function() {
+  this.game.combat.textBar("You adopted a defensive position");
   this.def = true;
 };
 
@@ -111,13 +118,32 @@ Character.prototype.combatStart = function() {
 };
 
 Character.prototype.fireBall = function() {
+  var that = this;
+  var counter = 0;
+  var posx = this.game.combat.fireballX;
+  var posy = this.game.combat.fireballY;
+  this.magOn=true;
+  var attackAnimation = setInterval(function() {
+    that.game.combat.fireballX += 8;
+    that.game.combat.fireballY -= 8;
+    counter += 1;
+    if (counter === 30) {
+      clearInterval(attackAnimation);
+      that.game.combat.fireballX = posx;
+      that.game.combat.fireballY = posy;
+      that.magOn=false
+    }
+  }, 16);
+  
   if ((this.game.enemy.def = true)) {
-    this.game.enemy.currentHP = game.enemy.currentHP - this.magStrength / 2;
+    this.game.enemy.currentHP = game.enemy.currentHP - Math.round(this.magStrength / 2);
+    this.dmgDone=Math.round(this.magStrength / 2)
   } else {
     this.game.enemy.currentHP = game.enemy.currentHP - this.magStrength;
+    this.dmgDone=this.magStrength
   }
   this.currentMP -= 5;
-  console.log(this.currentMP);
+  this.game.combat.textBar("Your spell did " + this.dmgDone + " points of damage");
 };
 
 Character.prototype.lvlUp = function() {

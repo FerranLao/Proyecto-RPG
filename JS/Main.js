@@ -41,6 +41,7 @@ window.onload = function() {
         game.combatStatus = false;
         game.newEnemy();
       } else {
+        game.combat.textBar("You tried to escape and failed")
         game.enemy.attack();
       }
     }
