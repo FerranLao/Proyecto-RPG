@@ -19,6 +19,7 @@ function Enemies(game) {
   this.enemyimage.src = this.enemyImgArr[
     Math.floor(Math.random() * this.enemyImgArr.length)
   ];
+  this.charging = false;
   this.def = false;
   this.dmgDone = 0;
 }
@@ -38,18 +39,17 @@ Enemies.prototype.attack = function() {
       that.game.combat.enemyPosY = posy;
     }
   }, 16);
-  
+
   if (this.game.char.def === false) {
     this.game.char.currentHP = this.game.char.currentHP - this.strenght;
     this.dmgDone = this.strenght;
-  
   } else {
     this.game.char.currentHP =
       this.game.char.currentHP - Math.round(this.strenght / 2);
     this.game.char.def = false;
     this.dmgDone = Math.round(this.strenght / 2);
   }
- 
+
   this.game.combat.textBar("You recived " + this.dmgDone + " points of damage");
 };
 
@@ -61,11 +61,65 @@ Enemies.prototype.giveExp = function() {
     this.game.char.currentExp = oldExp + this.givenExp - this.game.char.needExp;
     this.game.char.lvlUp();
   }
-  console.log(this.game.char.currentExp + "/" + this.game.char.needExp);
 };
 
-Enemies.prototype.defense = function() {};
+Enemies.prototype.defense = function() {
+  this.def = true;
+  this.game.combat.textBar("The enemy adopted a defensive position");
+};
 
-Enemies.prototype.magic = function() {};
+Enemies.prototype.magic = function() {
+  if (this.charging) {
+    var counter = 0;
+    var that = this;
+    var posx = this.game.combat.enemyPosX;
+    var posy = this.game.combat.enemyPosY;
+    var attackAnimation = setInterval(function() {
+      that.game.combat.enemyPosX -= 2;
+      that.game.combat.enemyPosY += 2;
+      counter += 1;
+      if (counter === 30) {
+        clearInterval(attackAnimation);
+        that.game.combat.enemyPosX = posx;
+        that.game.combat.enemyPosY = posy;
+      }
+    }, 16);
+    if (this.game.char.def) {
+      this.game.char.currentHP =
+        this.game.char.currentHP - Math.round(this.strenght * 1.5);
+      this.dmgDone = Math.round(this.strenght * 1.5);
+      this.charging = false;
+    } else {
+      this.game.char.currentHP = this.game.char.currentHP - this.strenght * 3;
+      this.dmgDone = this.strenght * 3;
+      this.charging = false;
+    }
+    this.game.combat.textBar(
+      "You recived " + this.dmgDone + " points of damage"
+    );
+  } else {
+    this.charging = true;
+    this.game.combat.textBar("The enemy is charging energy");
+  }
+};
 
-Enemies.prototype.scape = function() {};
+Enemies.prototype.behavior = function() {
+  var random = Math.floor(Math.random() * 100);
+  console.log(random);
+  if (this.charging) {
+    this.magic();
+  } else {
+    if (random <= 70) {
+      this.attack();
+      console.log("attack");
+
+      
+    }else if (random <= 80 && random > 70) {
+        this.defense();
+        console.log("defense");
+    } else {
+      this.magic();
+      console.log("magic");
+    }
+  }
+};

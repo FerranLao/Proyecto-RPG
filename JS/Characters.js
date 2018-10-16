@@ -2,17 +2,17 @@ function Character(game) {
   //valores personaje
   this.game = game;
   this.level = 1;
-  this.maxHP = 50 + 10 * this.level; //+mods
+  this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
   this.maxMP = 15 + 5 * this.level;
-  this.currentMP = this.maxMP + 20 * this.level;
+  this.currentMP = this.maxMP;
   this.strength = 10 + 2 * this.level;
   this.magStrength = 15 + 3 * this.level;
   this.currentExp = 0;
   this.needExp = 500 + 100 * this.level;
   this.def = false;
   this.dmgDone = 0;
-  this.magOn=false
+  this.magOn = false;
 
   //movimiento
   this.positionX = 490;
@@ -44,16 +44,15 @@ Character.prototype.attack = function() {
     }
   }, 16);
 
-  if ((this.game.enemy.def = true)) {
+  if (this.game.enemy.def) {
     this.game.enemy.currentHP = game.enemy.currentHP - this.strength / 2;
     this.dmgDone = Math.round(this.strength / 2);
+    this.game.enemy.def = false;
   } else {
     this.game.enemy.currentHP = game.enemy.currentHP - this.strength;
     this.dmgDone = this.magStrength;
   }
-  this.game.combat.textBar(
-    "You done " + this.dmgDone + " points of damage"
-  );
+  this.game.combat.textBar("You done " + this.dmgDone + " points of damage");
 };
 
 Character.prototype.move = function(key) {
@@ -122,35 +121,45 @@ Character.prototype.fireBall = function() {
   var counter = 0;
   var posx = this.game.combat.fireballX;
   var posy = this.game.combat.fireballY;
-  this.magOn=true;
-  var attackAnimation = setInterval(function() {
-    that.game.combat.fireballX += 8;
-    that.game.combat.fireballY -= 8;
-    counter += 1;
-    if (counter === 30) {
-      clearInterval(attackAnimation);
-      that.game.combat.fireballX = posx;
-      that.game.combat.fireballY = posy;
-      that.magOn=false
-    }
-  }, 16);
-  
-  if ((this.game.enemy.def = true)) {
-    this.game.enemy.currentHP = game.enemy.currentHP - Math.round(this.magStrength / 2);
-    this.dmgDone=Math.round(this.magStrength / 2)
+  if (this.game.char.currentMP < 5) {
+    this.game.combat.textBar(
+      "You tried to cast a spell but didn't have enought mana"
+    );
   } else {
-    this.game.enemy.currentHP = game.enemy.currentHP - this.magStrength;
-    this.dmgDone=this.magStrength
+    this.magOn = true;
+    var attackAnimation = setInterval(function() {
+      that.game.combat.fireballX += 8;
+      that.game.combat.fireballY -= 8;
+      counter += 1;
+      if (counter === 30) {
+        clearInterval(attackAnimation);
+        that.game.combat.fireballX = posx;
+        that.game.combat.fireballY = posy;
+        that.magOn = false;
+      }
+    }, 16);
+
+    if (this.game.enemy.def) {
+      this.game.enemy.currentHP =
+        game.enemy.currentHP - Math.round(this.magStrength / 2);
+      this.dmgDone = Math.round(this.magStrength / 2);
+      this.game.enemy.def = false;
+    } else {
+      this.game.enemy.currentHP = game.enemy.currentHP - this.magStrength;
+      this.dmgDone = this.magStrength;
+    }
+    this.currentMP -= 5;
+    this.game.combat.textBar(
+      "Your spell did " + this.dmgDone + " points of damage"
+    );
   }
-  this.currentMP -= 5;
-  this.game.combat.textBar("Your spell did " + this.dmgDone + " points of damage");
 };
 
 Character.prototype.lvlUp = function() {
   this.maxHP = 50 + 10 * this.level; //+mods
   this.currentHP = this.maxHP;
-  this.maxMP = 100 + 20 * this.level;
-  this.currentMP = this.maxMP + 20 * this.level;
+  this.maxMP = 15 + 5 * this.level;
+  this.currentMP = this.maxMP;
   this.strength = 10 + 2 * this.level;
   this.magStrength = 10 + 2 * this.level;
   this.needExp = 500 + 100 * this.level;

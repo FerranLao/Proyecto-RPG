@@ -15,8 +15,8 @@ window.onload = function() {
       delay(attackBtn);
       game.char.attack();
       setTimeout(function() {
-        game.enemy.attack();
-      }, 500);
+        game.enemy.behavior();
+      }, 1000);
       checkWin();
     }
   }
@@ -27,8 +27,8 @@ window.onload = function() {
       delay();
       game.char.defense();
       setTimeout(function() {
-        game.enemy.attack();
-      }, 500);
+        game.enemy.behavior();
+      }, 1000);
       checkWin();
     }
   }
@@ -41,8 +41,8 @@ window.onload = function() {
         game.combatStatus = false;
         game.newEnemy();
       } else {
-        game.combat.textBar("You tried to escape and failed")
-        game.enemy.attack();
+        game.combat.textBar("You tried to escape and failed");
+        game.enemy.behavior();
       }
     }
   }
@@ -53,8 +53,8 @@ window.onload = function() {
       delay();
       game.char.fireBall();
       setTimeout(function() {
-        game.enemy.attack();
-      }, 500);
+        game.enemy.behavior();
+      }, 1000);
       checkWin();
     }
   }
@@ -66,8 +66,8 @@ window.onload = function() {
       game.enemy.giveExp();
       game.newEnemy();
       game.combatStatus = false;
-    }
-    if (game.char.lose()) {
+      if (game.char.lose()) {
+      }
     }
   }
 

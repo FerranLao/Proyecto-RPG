@@ -56,24 +56,22 @@ body {
   border-radius: 15px;
   background-size: 100% 100%;
 }
- .textArea{
+.textArea {
   height: 130px;
   width: 1200px;
   position: absolute;
   margin: 0;
   top: 630px;
   left: 10%;
-   background-image: url(./images/bordedeco.jpg);
-   background-size : 100% 100%;
-   opacity: 0;
-   z-index: 0;
-   font-size: 80px;
-   text-align: center;
+  background-image: url(./images/bordedeco.jpg);
+  background-size: 100% 100%;
+  opacity: 0;
+  z-index: 0;
+  font-size: 80px;
+  text-align: center;
   padding-top: 35px;
-   
-
-} 
-.show{
+}
+.show {
   opacity: 1;
   z-index: 200;
 }

@@ -14,4 +14,3 @@ Map.prototype.printMap = function(){
 Map.prototype.mapTransition = function (){
 
 }
-
