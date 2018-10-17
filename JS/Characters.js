@@ -18,7 +18,7 @@ function Character(game) {
   this.positionX = 490;
   this.positionY = 280;
   this.speed = 5;
-  this.combatChance = 1; //frecuencia combate
+  this.combatChance = -1;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -61,6 +61,23 @@ Character.prototype.move = function(key) {
       this.positionY -= this.speed;
       if (this.positionY === -30) {
         this.positionY = 800;
+        if (this.game.map.mapIndexY === 0) {
+          this.game.map.mapIndexY = this.game.map.maps.length - 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        } else {
+          this.game.map.mapIndexY -= 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        }
       }
       break;
 
@@ -69,13 +86,48 @@ Character.prototype.move = function(key) {
       this.positionX -= this.speed;
       if (this.positionX === -30) {
         this.positionX = 1200;
+        if (this.game.map.mapIndexX === 0) {
+          this.game.map.mapIndexX = this.game.map.maps.length - 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        } else {
+          this.game.map.mapIndexX -= 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        }
       }
+
       break;
 
     case "s":
       this.positionY += this.speed;
       if (this.positionY === 800) {
         this.positionY = -30;
+        if (this.game.map.mapIndexY === this.game.map.maps.length - 1) {
+          this.game.map.mapIndexY = 0;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        } else {
+          this.game.map.mapIndexY += 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        }
       }
       break;
 
@@ -84,6 +136,23 @@ Character.prototype.move = function(key) {
       this.positionX += this.speed;
       if (this.positionX === 1200) {
         this.positionX = -30;
+        if (this.game.map.mapIndexX === this.game.map.maps.length - 1) {
+          this.game.map.mapIndexX = 0;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        } else {
+          this.game.map.mapIndexX += 1;
+          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
+            this.game.map.mapIndexX
+          ].map;
+          this.game.combat.battleBackground.src = this.game.map.maps[
+            this.game.map.mapIndexY
+          ][this.game.map.mapIndexX].battle;
+        }
       }
       break;
   }
@@ -156,14 +225,13 @@ Character.prototype.fireBall = function() {
 };
 
 Character.prototype.lvlUp = function() {
-  this.maxHP = 50 + 10 * this.level; //+mods
+  this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
   this.maxMP = 15 + 5 * this.level;
   this.currentMP = this.maxMP;
   this.strength = 10 + 2 * this.level;
   this.magStrength = 10 + 2 * this.level;
   this.needExp = 500 + 100 * this.level;
-  this.critChance = 5 + this.level;
 };
 
 Character.prototype.Run = function() {

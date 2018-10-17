@@ -13,7 +13,13 @@ function Enemies(game) {
     "./images/Enemies/SW.png",
     "./images/Enemies/Gigant Shadow.png",
     "./images/Enemies/khx-possessor.png",
-    "./images/Enemies/patricio.png"
+    "./images/Enemies/patricio.png",
+    "./images/Enemies/350px-Darkling_KHX.png",
+    "./images/Enemies/Aeroplane_KHX.png",
+    "./images/Enemies/khx-possessor.png",
+    "./images/Enemies/khx-soldier.png",
+    "./images/Enemies/mad_dog.png",
+    "./images/Enemies/heartless08 - power wild.png"
   ];
   this.enemyimage = new Image();
   this.enemyimage.src = this.enemyImgArr[
@@ -105,21 +111,16 @@ Enemies.prototype.magic = function() {
 
 Enemies.prototype.behavior = function() {
   var random = Math.floor(Math.random() * 100);
-  console.log(random);
+
   if (this.charging) {
     this.magic();
   } else {
     if (random <= 70) {
       this.attack();
-      console.log("attack");
-
-      
-    }else if (random <= 80 && random > 70) {
-        this.defense();
-        console.log("defense");
+    } else if (random <= 80 && random > 70) {
+      this.defense();
     } else {
       this.magic();
-      console.log("magic");
     }
   }
 };

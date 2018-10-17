@@ -4,14 +4,10 @@ function Combat(game) {
   this.charPosY = 300;
   this.enemyPosX = 700;
   this.enemyPosY = 80;
-  this.backgrounds = [
-    "./images/battle_background_help_1_by_faria4-d4i6gca.jpg",
-    "./images/Battleback_veldt_a.png"
-  ];
   this.charImg = new Image();
   this.charImg.src = "./images/altair.png";
   this.battleBackground = new Image();
-  this.battleBackground.src = "./images/Battleback_veldt_a.png";
+  this.battleBackground.src = this.game.map.maps[this.game.map.mapIndexY][this.game.map.mapIndexX].battle;
   this.healthbar = new Image();
   this.healthbar.src = "./images/health-bar.png";
   this.manabar = new Image();

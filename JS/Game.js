@@ -12,6 +12,7 @@ function Game() {
 Game.prototype.start = function() {
   window.requestAnimationFrame(print);
 };
+
 Game.prototype.newEnemy = function() {
   this.enemy = new Enemies(this);
 };
