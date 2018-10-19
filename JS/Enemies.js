@@ -1,10 +1,9 @@
 function Enemies(game) {
   this.game = game;
   this.level = this.game.char.level;
-  this.maxHP = Math.round(Math.random() * (40 - 20) + 20) + this.level * 5;
+  this.maxHP = Math.round(Math.random() * (40 - 20) + 20) + this.level * 10;
   this.currentHP = this.maxHP;
   this.strenght = Math.round(Math.random() * (7 - 3) + 3);
-  this.critChance = 5;
   this.givenExp =
     Math.round(Math.random() * (300 - 200) + 200) + 30 * this.level;
   this.enemyImgArr = [
@@ -92,9 +91,10 @@ Enemies.prototype.magic = function() {
     }, 16);
     if (this.game.char.def) {
       this.game.char.currentHP =
-        this.game.char.currentHP - Math.round(this.strenght * 1.5);
-      this.dmgDone = Math.round(this.strenght * 1.5);
+        this.game.char.currentHP - Math.round(this.strenght);
+      this.dmgDone = Math.round(this.strenght)
       this.charging = false;
+      this.game.char.def=false;
     } else {
       this.game.char.currentHP = this.game.char.currentHP - this.strenght * 3;
       this.dmgDone = this.strenght * 3;
@@ -111,7 +111,6 @@ Enemies.prototype.magic = function() {
 
 Enemies.prototype.behavior = function() {
   var random = Math.floor(Math.random() * 100);
-
   if (this.charging) {
     this.magic();
   } else {
@@ -124,3 +123,38 @@ Enemies.prototype.behavior = function() {
     }
   }
 };
+
+Enemies.prototype.bossFight = function() {
+  if (this.game.map.mapIndexY === 2 && this.game.map.mapIndexX === 2) {
+    if (
+      this.game.map.bossmapX + 190 >= this.game.char.positionX &&
+      this.game.map.bossmapX < this.game.char.positionX + 50 &&
+      this.game.map.bossmapY < this.game.char.positionY + 50 &&
+      this.game.map.bossmapY + 140 > this.game.char.positionY
+    ) {
+      this.game.combatStatus= true;
+      this.enemyimage.src="./images/Enemies/sleeping-dragon-png-3.png";
+      this.level="???"
+      this.maxHP=500
+      this.currentHP=500;
+      this.strenght=50;      
+    }
+  }
+};
+Enemies.prototype.loot=function(){
+  var random = Math.floor(Math.random() * 100);
+  if(random<50){
+    var number=Math.floor(Math.random()*(3-1)+1)
+    this.game.char.objects.potion+=number
+    this.game.combat.textBar("The enemy droped "+ number + " health potions");
+ 
+  }else if(random>50&&random<70){
+    var number=Math.floor(Math.random()*(2-1)+1);
+    this.game.char.objects.elixir+=number
+    this.game.combat.textBar("The enemy droped "+ number + " elixir");
+    
+  }else{
+    this.game.combat.textBar("the enemy didn't drop anything")
+  }
+
+}

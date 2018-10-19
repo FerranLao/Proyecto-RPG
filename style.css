@@ -1,4 +1,4 @@
-.combat_menu {
+.combat_menu{
   height: 170px;
   width: 1200px;
   background-color: white;
@@ -30,7 +30,7 @@ body {
   flex-direction: row;
   align-content: space-between;
 }
-#button_container button {
+#button_container button,#objects_container button {
   height: 170px;
   width: 20%;
 }
@@ -67,11 +67,34 @@ body {
   background-size: 100% 100%;
   opacity: 0;
   z-index: 0;
-  font-size: 80px;
+  font-size: 70px;
   text-align: center;
   padding-top: 35px;
 }
+#objects_container{
+  height: 170px;
+  width: 1200px;
+  position: absolute;
+  margin: 0;
+  top: 630px;
+  left: 10%;  
+  background-color: rgba(0, 0, 250, 0.8);
+}
 .show {
   opacity: 1;
-  z-index: 200;
+  z-index: 300;
 }
+#potion{
+  background-image: url(./images/Heal_Potion_Icon.png);
+  background-size: 100% 100%;
+}
+#elixir{
+  background-image: url(./images/elixir.png);
+  background-size: 100% 100%;
+}
+#back{
+  background-image: url(./images/return.jpg);
+  background-size: 100% 100%;
+}
+
+

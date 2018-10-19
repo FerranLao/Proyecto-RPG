@@ -1,13 +1,15 @@
 function Combat(game) {
   this.game = game;
   this.charPosX = 50;
-  this.charPosY = 300;
+  this.charPosY = 350;
   this.enemyPosX = 700;
   this.enemyPosY = 80;
   this.charImg = new Image();
   this.charImg.src = "./images/altair.png";
   this.battleBackground = new Image();
-  this.battleBackground.src = this.game.map.maps[this.game.map.mapIndexY][this.game.map.mapIndexX].battle;
+  this.battleBackground.src = this.game.map.maps[this.game.map.mapIndexY][
+    this.game.map.mapIndexX
+  ].battle;
   this.healthbar = new Image();
   this.healthbar.src = "./images/health-bar.png";
   this.manabar = new Image();
@@ -27,16 +29,14 @@ Combat.prototype.textBar = function(message) {
   textArea.classList.add("show");
   setTimeout(function() {
     textArea.classList.remove("show");
-  }, 1000);
+  }, 1500);
 };
 
 Combat.prototype.print = function() {
   var canvas = this.game.canvas;
   var ctx = this.game.ctx;
-  var enemyHealth =
-    (this.game.enemy.currentHP / this.game.enemy.maxHP) * 360;
-  var charHealth =
-    (this.game.char.currentHP / this.game.char.maxHP) * 360;
+  var enemyHealth = (this.game.enemy.currentHP / this.game.enemy.maxHP) * 360;
+  var charHealth = (this.game.char.currentHP / this.game.char.maxHP) * 360;
   var charMana = (this.game.char.currentMP / this.game.char.maxMP) * 360;
   document.querySelector(".combat_menu").className = "combat_menu on";
   ctx.drawImage(this.battleBackground, 0, 0, canvas.width, canvas.height - 150);
@@ -60,7 +60,6 @@ Combat.prototype.print = function() {
   ctx.fillText(this.game.char.currentHP + "/" + this.game.char.maxHP, 780, 577);
   ctx.fillText("Level:" + game.enemy.level, 500, 127);
   ctx.fillText("Level:" + game.char.level, 1020, 577);
-
   ctx.drawImage(
     this.game.enemy.enemyimage,
     this.enemyPosX,
@@ -86,5 +85,9 @@ Combat.prototype.print = function() {
       700,
       500
     );
+  }
+  if (this.game.gameOver) {
+    ctx.drawImage(this.game.gameoverimg, 0, 0, 1200, 800);
+    document.querySelector(".combat_menu").className = "combat_menu off";
   }
 };

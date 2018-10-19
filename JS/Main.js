@@ -14,10 +14,7 @@ window.onload = function() {
     if (game.combatStatus) {
       delay(attackBtn);
       game.char.attack();
-      setTimeout(function() {
-        game.enemy.behavior();
-      }, 1000);
-      checkWin();
+      game.combatFlow();
     }
   }
   document.getElementById("atkbtn").addEventListener("click", attackBtn);
@@ -26,13 +23,42 @@ window.onload = function() {
     if (game.combatStatus) {
       delay();
       game.char.defense();
-      setTimeout(function() {
-        game.enemy.behavior();
-      }, 1000);
-      checkWin();
+      game.combatFlow();
     }
   }
   document.getElementById("defbtn").addEventListener("click", defenseBtn);
+
+  function objects() {
+    if (game.combatStatus) {
+    document.getElementById("objects_container").className = "show"
+    }
+  }
+  document.getElementById("objbtn").addEventListener("click", objects);
+
+  function drinkPotion() {
+    if (game.combatStatus) {
+      delay();
+      game.char.potion();
+      game.combatFlow();
+    }
+  }
+  document.getElementById("potion").addEventListener("click", drinkPotion);
+
+  function drinkElixir() {
+    if (game.combatStatus) {
+      delay();
+      game.char.elixir();
+      game.combatFlow();
+    }
+  }
+  document.getElementById("elixir").addEventListener("click", drinkElixir)
+
+  function objectsBack(){
+    if (game.combatStatus) {
+      document.getElementById("objects_container").className = "off"
+    }
+  }
+  document.getElementById("back").addEventListener("click", objectsBack)
 
   function runBtn() {
     if (game.combatStatus) {
@@ -42,7 +68,7 @@ window.onload = function() {
         game.newEnemy();
       } else {
         game.combat.textBar("You tried to escape and failed");
-        game.enemy.behavior();
+        game.combatFlow();
       }
     }
   }
@@ -52,24 +78,10 @@ window.onload = function() {
     if (game.combatStatus) {
       delay();
       game.char.fireBall();
-      setTimeout(function() {
-        game.enemy.behavior();
-      }, 1000);
-      checkWin();
+      game.combatFlow();
     }
   }
   document.getElementById("magbtn").addEventListener("click", magBtn);
-
-  function checkWin() {
-    if (game.char.win()) {
-      game.char.currentHP = game.char.maxHP;
-      game.enemy.giveExp();
-      game.newEnemy();
-      game.combatStatus = false;
-      if (game.char.lose()) {
-      }
-    }
-  }
 
   function delay() {
     var container = document.getElementById("button_container");

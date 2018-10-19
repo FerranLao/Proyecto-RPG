@@ -13,12 +13,15 @@ function Character(game) {
   this.def = false;
   this.dmgDone = 0;
   this.magOn = false;
-
+  this.objects = {
+    potion: 2,
+    elixir: 0
+  };
   //movimiento
   this.positionX = 490;
   this.positionY = 280;
   this.speed = 5;
-  this.combatChance = -1;
+  this.combatChance = 0;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -45,12 +48,13 @@ Character.prototype.attack = function() {
   }, 16);
 
   if (this.game.enemy.def) {
-    this.game.enemy.currentHP = game.enemy.currentHP - this.strength / 2;
+    this.game.enemy.currentHP =
+      game.enemy.currentHP - Math.round(this.strength / 2);
     this.dmgDone = Math.round(this.strength / 2);
     this.game.enemy.def = false;
   } else {
     this.game.enemy.currentHP = game.enemy.currentHP - this.strength;
-    this.dmgDone = this.magStrength;
+    this.dmgDone = this.strength;
   }
   this.game.combat.textBar("You done " + this.dmgDone + " points of damage");
 };
@@ -165,14 +169,17 @@ Character.prototype.defense = function() {
 
 Character.prototype.win = function() {
   if (this.game.enemy.currentHP <= 0) {
-    document.querySelector(".combat_menu").className = "combat_menu off";
+    this.game.enemy.currentHP = 0;
     return true;
   }
 };
 
 Character.prototype.lose = function() {
-  if (this.game.char.currentHP <= 0) {
-    alert("YOU LOSE");
+  if (this.currentHP <= 0) {
+    document.querySelector(".combat_menu").className = "combat_menu off";
+    this.currentHP = 0;
+    this.game.gameOver = true;
+    this.game.combatStatus = false;
     return true;
   }
 };
@@ -224,20 +231,43 @@ Character.prototype.fireBall = function() {
   }
 };
 
+Character.prototype.potion = function() {
+  if (this.objects.potion > 0) {
+    var heal = this.currentHP;
+    this.currentHP += 100;
+    if (this.currentHP > this.maxHP) {
+      this.currentHP = this.maxHP;
+    }
+    heal = this.currentHP - heal;
+    this.objects.potion -= 1;
+    this.game.combat.textBar("Restored " + heal + " points of health");
+    document.getElementById("objects_container").className = "off";
+  }
+};
+
+Character.prototype.elixir = function() {
+  if (this.objects.elixir > 0) {
+    this.currentHP = this.maxHP;
+    this.currentMP = this.maxMP;
+    this.objects.elixir -= 1;
+    this.game.combat.textBar("Fully restored");
+    document.getElementById("objects_container").className = "off";
+  }
+};
+
 Character.prototype.lvlUp = function() {
   this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
   this.maxMP = 15 + 5 * this.level;
   this.currentMP = this.maxMP;
   this.strength = 10 + 2 * this.level;
-  this.magStrength = 10 + 2 * this.level;
+  this.magStrength = 15 + 3 * this.level;
   this.needExp = 500 + 100 * this.level;
 };
 
 Character.prototype.Run = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= 50) {
-    document.querySelector(".combat_menu").className = "combat_menu off";
     return true;
   }
 };
