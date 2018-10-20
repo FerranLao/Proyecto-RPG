@@ -49,16 +49,15 @@ function Map(game) {
   this.mapIndexX = 0;
   this.img.src = this.maps[this.mapIndexY][this.mapIndexX].map;
   //boss images
-  this.bossmap= new Image();
-  this.bossmap.src="./images/Enemies/sleeping-dragon-png-3.png"
-  this.bossmapX= this.game.canvas.width/2 - 150;
-  this.bossmapY= this.game.canvas.height/2 - 100;
+  this.bossmap = new Image();
+  this.bossmap.src = "./images/Enemies/sleeping-dragon-png-3.png";
+  this.bossmapX = this.game.canvas.width / 2 - 150;
+  this.bossmapY = this.game.canvas.height / 2 - 100;
   //objects
-  this.potionimg=new Image();
-  this.potionimg.src="./images/healpotion.png";
-  this.elixirimg=new Image();
-  this.elixirimg.src="./images/Elixir_of_Life.png";
-
+  this.potionimg = new Image();
+  this.potionimg.src = "./images/healpotion.png";
+  this.elixirimg = new Image();
+  this.elixirimg.src = "./images/Elixir_of_Life.png";
 }
 Map.prototype.printMap = function() {
   var ctx = this.game.ctx;
@@ -69,15 +68,56 @@ Map.prototype.printMap = function() {
     this.game.canvas.width,
     this.game.canvas.height
   );
-  ctx.drawImage(this.potionimg, 50,50,50,50);
-  ctx.drawImage(this.elixirimg, 50, 100,50, 50);
+  ctx.drawImage(this.potionimg, 50, 50, 50, 50);
+  ctx.drawImage(this.elixirimg, 50, 100, 50, 50);
   ctx.font = "25px Arial";
-  ctx.fillText(this.game.char.objects.potion, 105,85);
-  ctx.fillText(this.game.char.objects.elixir, 105,135);
-  
-  if(this.mapIndexX===2 && this.mapIndexY==2){
-    ctx.drawImage(this.bossmap, this.bossmapX,this.bossmapY,190,140)
+  ctx.fillText(this.game.char.objects.potion, 105, 85);
+  ctx.fillText(this.game.char.objects.elixir, 105, 135);
+
+  if (this.mapIndexX === 2 && this.mapIndexY == 2) {
+    ctx.drawImage(this.bossmap, this.bossmapX, this.bossmapY, 190, 140);
   }
-  
-  
+};
+
+Map.prototype.mapChange = function() {
+  var char = this.game.char;
+  if (char.positionY >= 800 && char.direction ==="s") {
+    char.positionY = -30;
+    if (this.mapIndexY === this.maps.length - 1) {
+      this.mapIndexY = 0;
+    } else {
+      this.mapIndexY += 1;
+    }
+  }
+  if (char.positionX <= -30 && char.direction ==="a") {
+    char.positionX = 1200;
+    if (this.mapIndexX == 0) {
+      console.log("jsdhf")
+      this.mapIndexX = this.maps.length - 1;
+    } else {
+      this.mapIndexX -= 1;
+    }
+  }
+  if (char.positionY <= -30 && char.direction ==="w") {
+    char.positionY = 800;
+    if (this.mapIndexY === 0) {
+      this.mapIndexY = this.maps.length - 1;
+    } else {
+      this.mapIndexY -= 1;
+    }
+  }
+  if (char.positionX >= 1200 && char.direction ==="d") {
+    char.positionX = -30;
+    if (this.mapIndexX === this.maps.length - 1) {
+      this.mapIndexX = 0;
+    } else {
+      this.mapIndexX += 1;
+    }
+  }
+  //console.log(char.positionX,char.positionY)
+  this.mapSelect(this.mapIndexX, this.mapIndexY);
+};
+Map.prototype.mapSelect = function(indexX, indexY) {
+  this.img.src = this.maps[indexX][indexY].map;
+  this.game.combat.battleBackground.src = this.maps[indexX][indexY].battle;
 };

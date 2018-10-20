@@ -14,14 +14,15 @@ function Character(game) {
   this.dmgDone = 0;
   this.magOn = false;
   this.objects = {
-    potion: 2,
-    elixir: 0
+    potion: 10,
+    elixir: 10
   };
   //movimiento
   this.positionX = 490;
   this.positionY = 280;
+  this.direction;
   this.speed = 5;
-  this.combatChance = 0;
+  this.combatChance = -1;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -63,103 +64,27 @@ Character.prototype.move = function(key) {
   switch (key) {
     case "w":
       this.positionY -= this.speed;
-      if (this.positionY === -30) {
-        this.positionY = 800;
-        if (this.game.map.mapIndexY === 0) {
-          this.game.map.mapIndexY = this.game.map.maps.length - 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        } else {
-          this.game.map.mapIndexY -= 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        }
-      }
+      this.direction="w";
       break;
 
     case "a":
+      this.direction="a";
       this.img.src = "./images/castlecrasher2.png";
       this.positionX -= this.speed;
-      if (this.positionX === -30) {
-        this.positionX = 1200;
-        if (this.game.map.mapIndexX === 0) {
-          this.game.map.mapIndexX = this.game.map.maps.length - 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        } else {
-          this.game.map.mapIndexX -= 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        }
-      }
-
       break;
 
     case "s":
+      this.direction="s";
       this.positionY += this.speed;
-      if (this.positionY === 800) {
-        this.positionY = -30;
-        if (this.game.map.mapIndexY === this.game.map.maps.length - 1) {
-          this.game.map.mapIndexY = 0;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        } else {
-          this.game.map.mapIndexY += 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        }
-      }
       break;
 
     case "d":
+      this.direction="d";
       this.img.src = "./images/castlecrasher.png";
       this.positionX += this.speed;
-      if (this.positionX === 1200) {
-        this.positionX = -30;
-        if (this.game.map.mapIndexX === this.game.map.maps.length - 1) {
-          this.game.map.mapIndexX = 0;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        } else {
-          this.game.map.mapIndexX += 1;
-          this.game.map.img.src = this.game.map.maps[this.game.map.mapIndexY][
-            this.game.map.mapIndexX
-          ].map;
-          this.game.combat.battleBackground.src = this.game.map.maps[
-            this.game.map.mapIndexY
-          ][this.game.map.mapIndexX].battle;
-        }
-      }
       break;
   }
+  this.game.map.mapChange()
 };
 
 Character.prototype.defense = function() {
@@ -254,6 +179,18 @@ Character.prototype.elixir = function() {
     document.getElementById("objects_container").className = "off";
   }
 };
+
+Character.prototype.mapObjects= function(key){
+  switch(key){
+    case "e":
+    this.potion();
+    console.log("hola")
+    break;
+    case "r":
+    this.elixir();
+    break;
+  }
+}
 
 Character.prototype.lvlUp = function() {
   this.maxHP = 50 + 10 * this.level;

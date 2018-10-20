@@ -6,7 +6,8 @@ window.onload = function() {
   window.onkeydown = function(e) {
     if (!game.combatStatus) {
       game.char.move(e.key);
-      game.char.combatStart();
+      game.char.combatStart();    
+      
     }
   };
 
