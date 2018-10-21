@@ -10,7 +10,6 @@ function Game() {
   this.gameoverimg.src = "./images/gameover.jpg";
   this.combatStatus = false;
   this.gameOver = false;
-  
 }
 
 Game.prototype.start = function() {
@@ -39,6 +38,17 @@ Game.prototype.combatFlow = function() {
       if (that.char.lose()) {
       }
     }, 1500);
+  }
+};
+
+Game.prototype.collisions = function(object1, object2) {
+  if (
+    object1.positionX + object1.width >= object2.positionX &&
+    object1.positionX < object2.positionX + object2.width &&
+    object1.positionY < object2.positionY + object2.height &&
+    object1.positionY + object1.height > object2.positionY
+  ) {
+    return true;
   }
 };
 

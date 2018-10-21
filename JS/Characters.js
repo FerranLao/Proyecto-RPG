@@ -20,16 +20,18 @@ function Character(game) {
   //movimiento
   this.positionX = 490;
   this.positionY = 280;
+  this.width = 50;
+  this.height= 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = -1;
+  this.combatChance = 0;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
 Character.prototype.print = function() {
   var ctx = this.game.ctx;
   var that = this;
-  ctx.drawImage(that.img, that.positionX, that.positionY, 50, 50);
+  ctx.drawImage(that.img, that.positionX, that.positionY, this.width, this.width);
 };
 
 Character.prototype.attack = function() {
@@ -60,31 +62,40 @@ Character.prototype.attack = function() {
   this.game.combat.textBar("You done " + this.dmgDone + " points of damage");
 };
 
-Character.prototype.move = function(key) {
+Character.prototype.mapInteraction = function(key) {
   switch (key) {
     case "w":
       this.positionY -= this.speed;
-      this.direction="w";
+      this.direction = "w";
       break;
 
     case "a":
-      this.direction="a";
+      this.direction = "a";
       this.img.src = "./images/castlecrasher2.png";
       this.positionX -= this.speed;
       break;
 
     case "s":
-      this.direction="s";
+      this.direction = "s";
       this.positionY += this.speed;
       break;
 
     case "d":
-      this.direction="d";
+      this.direction = "d";
       this.img.src = "./images/castlecrasher.png";
       this.positionX += this.speed;
       break;
+    
+      case "e":
+      this.potion();
+      break;
+   
+      case "r":
+      this.elixir();
+      break;
   }
-  this.game.map.mapChange()
+  this.game.map.mapChange();
+  this.openChest()
 };
 
 Character.prototype.defense = function() {
@@ -180,17 +191,6 @@ Character.prototype.elixir = function() {
   }
 };
 
-Character.prototype.mapObjects= function(key){
-  switch(key){
-    case "e":
-    this.potion();
-    console.log("hola")
-    break;
-    case "r":
-    this.elixir();
-    break;
-  }
-}
 
 Character.prototype.lvlUp = function() {
   this.maxHP = 50 + 10 * this.level;
@@ -205,6 +205,20 @@ Character.prototype.lvlUp = function() {
 Character.prototype.Run = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= 50) {
+    document.querySelector(".combat_menu").className = "combat_menu off";
     return true;
   }
 };
+Character.prototype.openChest= function(){
+  var current=this.game.map.chest[this.game.map.mapIndexY][this.game.map.mapIndexX]
+  if(this.game.collisions(this , current)){
+    if(!current.open){
+      this.game.map.chestLoot();
+      current.open=true;
+      current.img.src="./images/openchest.png"
+
+    }
+      
+
+  }
+}
