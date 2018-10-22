@@ -21,17 +21,23 @@ function Character(game) {
   this.positionX = 490;
   this.positionY = 280;
   this.width = 50;
-  this.height= 50;
+  this.height = 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = 0;
+  this.combatChance = -1;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
 Character.prototype.print = function() {
   var ctx = this.game.ctx;
   var that = this;
-  ctx.drawImage(that.img, that.positionX, that.positionY, this.width, this.width);
+  ctx.drawImage(
+    that.img,
+    that.positionX,
+    that.positionY,
+    this.width,
+    this.width
+  );
 };
 
 Character.prototype.attack = function() {
@@ -63,6 +69,8 @@ Character.prototype.attack = function() {
 };
 
 Character.prototype.mapInteraction = function(key) {
+  var positionX=this.positionX;
+  var positionY=this.positionY;
   switch (key) {
     case "w":
       this.positionY -= this.speed;
@@ -85,17 +93,22 @@ Character.prototype.mapInteraction = function(key) {
       this.img.src = "./images/castlecrasher.png";
       this.positionX += this.speed;
       break;
-    
-      case "e":
+
+    case "e":
       this.potion();
       break;
-   
-      case "r":
+
+    case "r":
       this.elixir();
       break;
   }
   this.game.map.mapChange();
-  this.openChest()
+  this.openChest();
+  if(this.obstacleCollision()){
+    this.positionX=positionX;
+    this.positionY=positionY;
+  }
+
 };
 
 Character.prototype.defense = function() {
@@ -112,10 +125,14 @@ Character.prototype.win = function() {
 
 Character.prototype.lose = function() {
   if (this.currentHP <= 0) {
+    var that=this;
     document.querySelector(".combat_menu").className = "combat_menu off";
     this.currentHP = 0;
-    this.game.gameOver = true;
-    this.game.combatStatus = false;
+    this.game.combat.textBar("YOU DIED!");
+    setTimeout(function() {
+      that.game.gameOver = true;
+      that.game.combatStatus = false;
+    }, 1000);
     return true;
   }
 };
@@ -191,7 +208,6 @@ Character.prototype.elixir = function() {
   }
 };
 
-
 Character.prototype.lvlUp = function() {
   this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
@@ -209,16 +225,22 @@ Character.prototype.Run = function() {
     return true;
   }
 };
-Character.prototype.openChest= function(){
-  var current=this.game.map.chest[this.game.map.mapIndexY][this.game.map.mapIndexX]
-  if(this.game.collisions(this , current)){
-    if(!current.open){
+Character.prototype.openChest = function() {
+  var current = this.game.map.chest[this.game.map.mapIndexY][
+    this.game.map.mapIndexX
+  ];
+  if (this.game.collisions(this, current)) {
+    if (!current.open) {
       this.game.map.chestLoot();
-      current.open=true;
-      current.img.src="./images/openchest.png"
-
+      current.open = true;
+      current.img.src = "./images/openchest.png";
     }
-      
-
+  }
+};
+Character.prototype.obstacleCollision = function(){
+  var obstacle1=this.game.map.obstacles[this.game.map.mapIndexY][this.game.map.mapIndexX].obstacle1;
+  var obstacle2=this.game.map.obstacles[this.game.map.mapIndexY][this.game.map.mapIndexX].obstacle2
+  if(this.game.collisions(this,obstacle1) || this.game.collisions(this,obstacle2)){
+    return true;
   }
 }

@@ -2,14 +2,19 @@ var game;
 window.onload = function() {
   game = new Game();
   game.map.chestGenerator();
+  game.map.obstacleGenerator();
   game.start();
 
   window.onkeydown = function(e) {
     if (!game.combatStatus) {
       game.char.mapInteraction(e.key);
       game.char.combatStart();    
-      
+      }
+    if(game.gameOver){
+      game = new Game();
+      game.map.chestGenerator()
     }
+
   };
 
   function attackBtn() {

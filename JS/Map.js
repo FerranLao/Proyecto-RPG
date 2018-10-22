@@ -45,6 +45,7 @@ function Map(game) {
     ]
   ];
   this.chest = [[], [], []];
+  this.obstacles = [[], [], []];
   this.img = new Image();
   this.mapIndexY = 0;
   this.mapIndexX = 0;
@@ -63,7 +64,9 @@ function Map(game) {
 
 Map.prototype.printMap = function() {
   var ctx = this.game.ctx;
-  var charHealth = (this.game.char.currentHP / this.game.char.maxHP) * 215
+  var obstacle1=this.obstacles[this.mapIndexY][this.mapIndexX].obstacle1;
+  var obstacle2=this.obstacles[this.mapIndexY][this.mapIndexX].obstacle2
+  var charHealth = (this.game.char.currentHP / this.game.char.maxHP) * 215;
   var charMana = (this.game.char.currentMP / this.game.char.maxMP) * 215;
   var charXP = (this.game.char.currentExp / this.game.char.needExp) * 176;
   ctx.drawImage(
@@ -82,21 +85,25 @@ Map.prototype.printMap = function() {
     50
   );
   //UI
-  ctx.fillStyle="#1A1A19"
+  ctx.fillStyle = "#1A1A19";
   ctx.font = "25px Arial";
   ctx.fillText(this.game.char.objects.potion, 105, 85);
   ctx.fillText(this.game.char.objects.elixir, 105, 135);
   ctx.drawImage(this.potionimg, 50, 50, 50, 50);
   ctx.drawImage(this.elixirimg, 50, 100, 50, 50);
-  ctx.fillStyle="#FF0022";
-  ctx.fillRect(85,683,charHealth,15);
-  ctx.drawImage(this.game.combat.healthbar, 30,650,300, 90);
-  ctx.fillStyle="#000CFF";
-  ctx.fillRect(90,710,charMana,10)
-  ctx.drawImage(this.game.combat.manabar,20,700,300,30);
-  ctx.fillStyle="#C305C3"
-  ctx.fillRect(125,739,charXP,10)
-  ctx.drawImage(this.game.combat.xpbar,0,700,350,100);
+  ctx.fillStyle = "#FF0022";
+  ctx.fillRect(85, 683, charHealth, 15);
+  ctx.drawImage(this.game.combat.healthbar, 30, 650, 300, 90);
+  ctx.fillStyle = "#000CFF";
+  ctx.fillRect(90, 710, charMana, 10);
+  ctx.drawImage(this.game.combat.manabar, 20, 700, 300, 30);
+  ctx.fillStyle = "#C305C3";
+  ctx.fillRect(125, 739, charXP, 10);
+  ctx.drawImage(this.game.combat.xpbar, 0, 700, 350, 100);
+  //obstacles
+  ctx.fillStyle="#FFCC00"
+  ctx.fillRect(obstacle1.positionX,obstacle1.positionY,obstacle1.width,obstacle1.height)
+  ctx.fillRect(obstacle2.positionX,obstacle2.positionY,obstacle2.width,obstacle2.height)
 
   //boss
   if (this.mapIndexX === 2 && this.mapIndexY == 2) {
@@ -181,4 +188,35 @@ Map.prototype.chestLoot = function() {
     this.game.char.objects.elixir += number;
     this.game.combat.textBar("The chest contains  " + number + " elixir");
   }
+};
+Map.prototype.obstacleGenerator = function() {
+  for (var j = 0; j < 3; j++) {
+    for (var i = 0; i < 3; i++) {
+      do {
+        var obstacle = {
+          obstacle1: {
+            positionX: Math.round(Math.random() * (600 - 50) + 50),
+            positionY: Math.round(Math.random() * (400 - 50) + 50),
+            height: Math.round(Math.random() * (200 - 100) + 100),
+            width: Math.round(Math.random() * (200 - 100) + 100)
+          },
+          obstacle2: {
+            positionX: Math.round(Math.random() * (1100 - 600) + 600),
+            positionY: Math.round(Math.random() * (750-400) + 400),
+            height: Math.round(Math.random() * (200 - 100) + 100),
+            width: Math.round(Math.random() * (200 - 100) + 100)
+          }
+        };
+        if (
+          !this.game.collisions(obstacle.obstacle1, this.chest[i][j]) &&
+          !this.game.collisions(obstacle.obstacle2, this.chest[i][j])
+        ) {
+          this.obstacles[j].push(obstacle);
+        }
+      } while (
+        this.game.collisions(obstacle.obstacle1, this.chest[i][j]) ||
+        this.game.collisions(obstacle.obstacle2, this.chest[i][j])
+      );
+    }
+  }console.log(this.obstacles)
 };
