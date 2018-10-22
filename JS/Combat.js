@@ -14,6 +14,8 @@ function Combat(game) {
   this.healthbar.src = "./images/health-bar.png";
   this.manabar = new Image();
   this.manabar.src = "./images/mana-bar.png";
+  this.xpbar = new Image();
+  this.xpbar.src = "./images/xpbar.png";
   this.shield = new Image();
   this.shield.src = "./images/shield.png";
   this.fireball = new Image();

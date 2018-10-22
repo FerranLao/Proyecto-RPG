@@ -60,8 +60,12 @@ function Map(game) {
   this.elixirimg = new Image();
   this.elixirimg.src = "./images/Elixir_of_Life.png";
 }
+
 Map.prototype.printMap = function() {
   var ctx = this.game.ctx;
+  var charHealth = (this.game.char.currentHP / this.game.char.maxHP) * 215
+  var charMana = (this.game.char.currentMP / this.game.char.maxMP) * 215;
+  var charXP = (this.game.char.currentExp / this.game.char.needExp) * 176;
   ctx.drawImage(
     this.img,
     0,
@@ -69,20 +73,35 @@ Map.prototype.printMap = function() {
     this.game.canvas.width,
     this.game.canvas.height
   );
-  ctx.drawImage(this.potionimg, 50, 50, 50, 50);
-  ctx.drawImage(this.elixirimg, 50, 100, 50, 50);
+  //chest
+  ctx.drawImage(
+    this.chest[this.mapIndexY][this.mapIndexX].img,
+    this.chest[this.mapIndexY][this.mapIndexX].positionX,
+    this.chest[this.mapIndexY][this.mapIndexX].positionY,
+    50,
+    50
+  );
+  //UI
+  ctx.fillStyle="#1A1A19"
   ctx.font = "25px Arial";
   ctx.fillText(this.game.char.objects.potion, 105, 85);
   ctx.fillText(this.game.char.objects.elixir, 105, 135);
-  ctx.drawImage(this.chest[this.mapIndexY][this.mapIndexX].img,this.chest[this.mapIndexY][this.mapIndexX].positionX,this.chest[this.mapIndexY][this.mapIndexX].positionY,50,50 )
+  ctx.drawImage(this.potionimg, 50, 50, 50, 50);
+  ctx.drawImage(this.elixirimg, 50, 100, 50, 50);
+  ctx.fillStyle="#FF0022";
+  ctx.fillRect(85,683,charHealth,15);
+  ctx.drawImage(this.game.combat.healthbar, 30,650,300, 90);
+  ctx.fillStyle="#000CFF";
+  ctx.fillRect(90,710,charMana,10)
+  ctx.drawImage(this.game.combat.manabar,20,700,300,30);
+  ctx.fillStyle="#C305C3"
+  ctx.fillRect(125,739,charXP,10)
+  ctx.drawImage(this.game.combat.xpbar,0,700,350,100);
 
+  //boss
   if (this.mapIndexX === 2 && this.mapIndexY == 2) {
     ctx.drawImage(this.bossmap, this.bossmapX, this.bossmapY, 190, 140);
   }
-  
-    
-  
-
 };
 
 Map.prototype.mapChange = function() {
@@ -123,41 +142,43 @@ Map.prototype.mapChange = function() {
 
   this.mapSelect(this.mapIndexX, this.mapIndexY);
 };
+
 Map.prototype.mapSelect = function(indexX, indexY) {
   this.img.src = this.maps[indexX][indexY].map;
   this.game.combat.battleBackground.src = this.maps[indexX][indexY].battle;
 };
 
 Map.prototype.chestGenerator = function() {
-  var that=this;
+  var that = this;
   for (i = 0; i < 3; i++) {
     for (j = 0; j < 3; j++) {
-      var chest={
-        positionX: Math.floor(Math.random()*(1100-50)+50),
-        positionY: Math.floor(Math.random()*(700-50)+50),
+      var chest = {
+        positionX: Math.floor(Math.random() * (1100 - 50) + 50),
+        positionY: Math.floor(Math.random() * (700 - 50) + 50),
         height: 50,
         width: 50,
-        open: false, 
-        img: new Image(),
-      }
-      chest.img.src="./images/closedchest.png"
-      this.chest[i].push(chest)
-      }
+        open: false,
+        img: new Image()
+      };
+      chest.img.src = "./images/closedchest.png";
+      this.chest[i].push(chest);
+    }
   }
-  console.log(this.chest)
+  console.log(this.chest);
 };
-Map.prototype.chestLoot= function(){
+
+Map.prototype.chestLoot = function() {
   var random = Math.floor(Math.random() * 100);
-  if(random<70){
-    var number=Math.floor(Math.random()*(3-1)+1)
-    this.game.char.objects.potion+=number
-    this.game.combat.textBar("The chest contains "+ number + " health potions");
-    this.chest[this.mapIndexY][this.mapIndexX].open=true;
- 
-  }else{
-    var number=Math.floor(Math.random()*(2-1)+1);
-    this.game.char.objects.elixir+=number
-    this.game.combat.textBar("The chest contains  "+ number + " elixir");
-    
+  if (random < 70) {
+    var number = Math.floor(Math.random() * (3 - 1) + 1);
+    this.game.char.objects.potion += number;
+    this.game.combat.textBar(
+      "The chest contains " + number + " health potions"
+    );
+    this.chest[this.mapIndexY][this.mapIndexX].open = true;
+  } else {
+    var number = Math.floor(Math.random() * (2 - 1) + 1);
+    this.game.char.objects.elixir += number;
+    this.game.combat.textBar("The chest contains  " + number + " elixir");
   }
-}
+};

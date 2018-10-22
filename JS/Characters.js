@@ -14,8 +14,8 @@ function Character(game) {
   this.dmgDone = 0;
   this.magOn = false;
   this.objects = {
-    potion: 10,
-    elixir: 10
+    potion: 0,
+    elixir: 0
   };
   //movimiento
   this.positionX = 490;
