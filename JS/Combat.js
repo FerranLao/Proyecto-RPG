@@ -41,6 +41,8 @@ Combat.prototype.print = function() {
   var charHealth = (this.game.char.currentHP / this.game.char.maxHP) * 360;
   var charMana = (this.game.char.currentMP / this.game.char.maxMP) * 360;
   document.querySelector(".combat_menu").className = "combat_menu on";
+  document.querySelector("#potion").innerText= "Potions: "+ this.game.char.objects.potion
+  document.querySelector("#elixir").innerText= "Elixir: "+ this.game.char.objects.elixir
   ctx.drawImage(this.battleBackground, 0, 0, canvas.width, canvas.height - 150);
   ctx.fillStyle = "#FD1629";
   ctx.fillRect(120, 105, enemyHealth, 25);

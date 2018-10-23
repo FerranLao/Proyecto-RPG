@@ -24,6 +24,7 @@ function Enemies(game) {
   this.enemyimage.src = this.enemyImgArr[
     Math.floor(Math.random() * this.enemyImgArr.length)
   ];
+  //enemy states
   this.charging = false;
   this.def = false;
   this.dmgDone = 0;

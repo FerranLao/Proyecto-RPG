@@ -21,6 +21,7 @@ Game.prototype.newEnemy = function() {
   this.enemy.def = false;
   this.enemy.charging = false;
 };
+
 Game.prototype.combatFlow = function() {
   var that = this;
   if (this.char.win()) {

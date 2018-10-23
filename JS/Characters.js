@@ -24,7 +24,7 @@ function Character(game) {
   this.height = 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = -1;
+  this.combatChance = 2;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -69,29 +69,33 @@ Character.prototype.attack = function() {
 };
 
 Character.prototype.mapInteraction = function(key) {
-  var positionX=this.positionX;
-  var positionY=this.positionY;
+  var positionX = this.positionX;
+  var positionY = this.positionY;
   switch (key) {
     case "w":
       this.positionY -= this.speed;
       this.direction = "w";
+      this.combatStart();
       break;
 
     case "a":
       this.direction = "a";
       this.img.src = "./images/castlecrasher2.png";
       this.positionX -= this.speed;
+      this.combatStart();
       break;
 
     case "s":
       this.direction = "s";
       this.positionY += this.speed;
+      this.combatStart();
       break;
 
     case "d":
       this.direction = "d";
       this.img.src = "./images/castlecrasher.png";
       this.positionX += this.speed;
+      this.combatStart();
       break;
 
     case "e":
@@ -101,14 +105,20 @@ Character.prototype.mapInteraction = function(key) {
     case "r":
       this.elixir();
       break;
+    case "m":
+    if(this.game.map.legendmapstatus) {
+      this.game.map.legendmapstatus = false
+    }else{
+    this.game.map.legendmapstatus = true;
+    }
+      break;
   }
   this.game.map.mapChange();
   this.openChest();
-  if(this.obstacleCollision()){
-    this.positionX=positionX;
-    this.positionY=positionY;
+  if (this.obstacleCollision()) {
+    this.positionX = positionX;
+    this.positionY = positionY;
   }
-
 };
 
 Character.prototype.defense = function() {
@@ -125,7 +135,7 @@ Character.prototype.win = function() {
 
 Character.prototype.lose = function() {
   if (this.currentHP <= 0) {
-    var that=this;
+    var that = this;
     document.querySelector(".combat_menu").className = "combat_menu off";
     this.currentHP = 0;
     this.game.combat.textBar("YOU DIED!");
@@ -237,10 +247,17 @@ Character.prototype.openChest = function() {
     }
   }
 };
-Character.prototype.obstacleCollision = function(){
-  var obstacle1=this.game.map.obstacles[this.game.map.mapIndexY][this.game.map.mapIndexX].obstacle1;
-  var obstacle2=this.game.map.obstacles[this.game.map.mapIndexY][this.game.map.mapIndexX].obstacle2
-  if(this.game.collisions(this,obstacle1) || this.game.collisions(this,obstacle2)){
+Character.prototype.obstacleCollision = function() {
+  var obstacle1 = this.game.map.obstacles[this.game.map.mapIndexY][
+    this.game.map.mapIndexX
+  ].obstacle1;
+  var obstacle2 = this.game.map.obstacles[this.game.map.mapIndexY][
+    this.game.map.mapIndexX
+  ].obstacle2;
+  if (
+    this.game.collisions(this, obstacle1) ||
+    this.game.collisions(this, obstacle2)
+  ) {
     return true;
   }
-}
+};

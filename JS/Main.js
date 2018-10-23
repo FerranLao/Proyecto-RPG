@@ -7,14 +7,13 @@ window.onload = function() {
 
   window.onkeydown = function(e) {
     if (!game.combatStatus) {
-      game.char.mapInteraction(e.key);
-      game.char.combatStart();    
-      }
-    if(game.gameOver){
-      game = new Game();
-      game.map.chestGenerator()
+      game.char.mapInteraction(e.key);      
     }
-
+    if (game.gameOver) {
+      game = new Game();
+      game.map.chestGenerator();
+      game.map.obstacleGenerator();
+    }
   };
 
   function attackBtn() {
@@ -37,7 +36,7 @@ window.onload = function() {
 
   function objects() {
     if (game.combatStatus) {
-    document.getElementById("objects_container").className = "show"
+      document.getElementById("objects_container").className = "show";
     }
   }
   document.getElementById("objbtn").addEventListener("click", objects);
@@ -58,14 +57,14 @@ window.onload = function() {
       game.combatFlow();
     }
   }
-  document.getElementById("elixir").addEventListener("click", drinkElixir)
+  document.getElementById("elixir").addEventListener("click", drinkElixir);
 
-  function objectsBack(){
+  function objectsBack() {
     if (game.combatStatus) {
-      document.getElementById("objects_container").className = "off"
+      document.getElementById("objects_container").className = "off";
     }
   }
-  document.getElementById("back").addEventListener("click", objectsBack)
+  document.getElementById("back").addEventListener("click", objectsBack);
 
   function runBtn() {
     if (game.combatStatus) {
