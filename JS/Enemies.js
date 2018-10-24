@@ -47,6 +47,7 @@ Enemies.prototype.attack = function() {
       that.game.combat.enemyPosY = posy;
     }
   }, 16);
+  this.game.attacksound.play()
 
   if (this.game.char.def === false) {
     this.game.char.currentHP = this.game.char.currentHP - this.strenght;
@@ -92,6 +93,7 @@ Enemies.prototype.magic = function() {
         that.game.combat.enemyPosY = posy;
       }
     }, 16);
+    this.game.attacksound.play()
     if (this.game.char.def) {
       this.game.char.currentHP =
         this.game.char.currentHP - Math.round(this.strenght);

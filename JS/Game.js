@@ -11,7 +11,15 @@ function Game() {
   this.combatStatus = false;
   this.gameOver = false;
   this.finalBoss = false;
-  
+  //sounds
+  this.song= new Audio("./sounds/song.mp3");
+  this.song.volume = 0.5;
+  this.chestsound= new Audio("./sounds/door.wav");
+  this.drinksound=new Audio("./sounds/bubble2.wav");
+  this.fireballsound=new Audio("./sounds/fireball.wav");
+  this.nelson= new Audio("./sounds/the-simpsons-nelsons-haha.mp3");
+  this.attacksound= new Audio("./sounds/punch.mp3");
+  this.wincombat=new Audio("./sounds/12_3.mp3");
 }
 
 Game.prototype.start = function() {
@@ -27,8 +35,7 @@ Game.prototype.newEnemy = function() {
 Game.prototype.combatFlow = function() {
   var that = this;
   if (this.char.win()) {
-    
-    //this.char.currentHP = this.char.maxHP;
+    this.wincombat.play()
     this.enemy.loot();
     this.enemy.giveExp();
     setTimeout(function() {
@@ -42,8 +49,7 @@ Game.prototype.combatFlow = function() {
   } else {
     setTimeout(function() {
       that.enemy.behavior();
-      if (that.char.lose()) {
-      }
+      that.char.lose()
     }, 1500);
   }
 };

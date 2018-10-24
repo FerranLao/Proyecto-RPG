@@ -1,13 +1,16 @@
 var game;
 window.onload = function() {
   game = new Game();
+  
   game.map.chestGenerator();
   game.map.obstacleGenerator();
   game.start();
 
   window.onkeydown = function(e) {
+    game.song.play()
     if (!game.combatStatus) {
       game.char.mapInteraction(e.key);
+      
     }
     if (game.gameOver) {
       game = new Game();

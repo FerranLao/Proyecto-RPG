@@ -24,7 +24,7 @@ function Character(game) {
   this.height = 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = -1;
+  this.combatChance = 1;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -55,7 +55,7 @@ Character.prototype.attack = function() {
       that.game.combat.charPosY = posy;
     }
   }, 16);
-
+  this.game.attacksound.play()
   if (this.game.enemy.def) {
     this.game.enemy.currentHP =
       game.enemy.currentHP - Math.round(this.strength / 2);
@@ -148,6 +148,7 @@ Character.prototype.lose = function() {
     this.currentHP = 0;
     this.game.combat.textBar("YOU DIED!");
     setTimeout(function() {
+      that.game.nelson.play();
       that.game.gameoverimg.src = "./images/gameover.jpg";
       that.game.gameOver = true;
       that.game.combatStatus = false;
@@ -174,6 +175,7 @@ Character.prototype.fireBall = function() {
       "You tried to cast a spell but didn't have enought mana"
     );
   } else {
+    this.game.fireballsound.play();
     this.magOn = true;
     var attackAnimation = setInterval(function() {
       that.game.combat.fireballX += 8;
@@ -205,6 +207,7 @@ Character.prototype.fireBall = function() {
 
 Character.prototype.potion = function() {
   if (this.objects.potion > 0) {
+    this.game.drinksound.play();
     var heal = this.currentHP;
     this.currentHP += 100;
     if (this.currentHP > this.maxHP) {
@@ -219,6 +222,7 @@ Character.prototype.potion = function() {
 
 Character.prototype.elixir = function() {
   if (this.objects.elixir > 0) {
+    this.game.drinksound.play();
     this.currentHP = this.maxHP;
     this.currentMP = this.maxMP;
     this.objects.elixir -= 1;
@@ -228,6 +232,7 @@ Character.prototype.elixir = function() {
 };
 
 Character.prototype.lvlUp = function() {
+  this.game.lvlupsound.play();
   this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
   this.maxMP = 15 + 5 * this.level;
@@ -250,6 +255,7 @@ Character.prototype.openChest = function() {
   ];
   if (this.game.collisions(this, current)) {
     if (!current.open) {
+      this.game.chestsound.play()
       this.game.map.chestLoot();
       current.open = true;
       current.img.src = "./images/openchest.png";
