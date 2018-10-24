@@ -24,7 +24,7 @@ function Character(game) {
   this.height = 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = 2;
+  this.combatChance = -1;
   this.img = new Image();
   this.img.src = "./images/castlecrasher.png";
 }
@@ -105,13 +105,21 @@ Character.prototype.mapInteraction = function(key) {
     case "r":
       this.elixir();
       break;
+
     case "m":
-    if(this.game.map.legendmapstatus) {
-      this.game.map.legendmapstatus = false
-    }else{
-    this.game.map.legendmapstatus = true;
-    }
+      if (this.game.map.legendmapstatus) {
+        this.game.map.legendmapstatus = false;
+      } else {
+        this.game.map.legendmapstatus = true;
+      }
       break;
+
+    case "i":
+      if (this.game.map.openinventory){
+        this.game.map.openinventory=false;
+      }else{
+        this.game.map.openinventory=true;
+      }
   }
   this.game.map.mapChange();
   this.openChest();
@@ -140,6 +148,7 @@ Character.prototype.lose = function() {
     this.currentHP = 0;
     this.game.combat.textBar("YOU DIED!");
     setTimeout(function() {
+      that.game.gameoverimg.src = "./images/gameover.jpg";
       that.game.gameOver = true;
       that.game.combatStatus = false;
     }, 1000);
@@ -261,3 +270,4 @@ Character.prototype.obstacleCollision = function() {
     return true;
   }
 };
+

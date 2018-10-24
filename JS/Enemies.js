@@ -1,11 +1,13 @@
 function Enemies(game) {
   this.game = game;
+  //stats
   this.level = this.game.char.level;
   this.maxHP = Math.round(Math.random() * (40 - 20) + 20) + this.level * 10;
   this.currentHP = this.maxHP;
   this.strenght = Math.round(Math.random() * (7 - 3) + 3);
   this.givenExp =
     Math.round(Math.random() * (300 - 200) + 200) + 30 * this.level;
+  //enemy images
   this.enemyImgArr = [
     "./images/Enemies/Floating_Eye-enemy-ffx.png",
     "./images/Enemies/FFXIII_enemy_Flanborg.png",
@@ -127,18 +129,22 @@ Enemies.prototype.behavior = function() {
 
 Enemies.prototype.bossFight = function() {
   if (this.game.map.mapIndexY === 2 && this.game.map.mapIndexX === 2) {
+    
     if (
       this.game.map.bossmapX + 190 >= this.game.char.positionX &&
       this.game.map.bossmapX < this.game.char.positionX + 50 &&
       this.game.map.bossmapY < this.game.char.positionY + 50 &&
       this.game.map.bossmapY + 140 > this.game.char.positionY
     ) {
+      this.game.finalBoss=true;
       this.game.combatStatus= true;
-      this.enemyimage.src="./images/Enemies/sleeping-dragon-png-3.png";
+      this.enemyimage.src="./images/Enemies/Deathwing_on_ground.png";
+      //this.game.combat.battleBackground.src="./images/Enemies/deathwing.jpg"
       this.level="???"
-      this.maxHP=500
-      this.currentHP=500;
-      this.strenght=50;      
+      this.maxHP=300
+      this.currentHP=300;
+      this.strenght=20;
+         
     }
   }
 };
@@ -157,5 +163,7 @@ Enemies.prototype.loot=function(){
   }else{
     this.game.combat.textBar("the enemy didn't drop anything")
   }
+}
+Enemies.prototype.bossFases = function(){
 
 }

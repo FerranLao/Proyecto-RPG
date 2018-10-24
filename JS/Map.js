@@ -1,61 +1,74 @@
 function Map(game) {
   this.game = game;
+  //maps and battle backgounds
   this.maps = [
     [
       {
         map: "./images/maps/snowmap.png",
-        battle: "./images/maps/SNOWBATTLEBACK1.png"
+        battle: "./images/maps/SNOWBATTLEBACK1.png",
+        obstacle: "./images/iceobstacle2.png"
       },
       {
         map: "./images/maps/pradera.png",
-        battle: "./images/maps/Battleback_veldt_a.png"
+        battle: "./images/maps/Battleback_veldt_a.png",
+        obstacle:"./images/obstacle.png"
       },
       {
         map: "./images/maps/beachmap.png",
-        battle: "./images/maps/beachback.png"
+        battle: "./images/maps/beachback.png",
+        obstacle:"./images/obs.png"
       }
     ],
     [
       {
         map: "./images/maps/cityruins.png",
-        battle: "./images/maps/cityback.jpg"
+        battle: "./images/maps/cityback.jpg",
+        obstacle:"./images/ruined_wall_4_by_cgartiste-d6fq8v8.png"
       },
       {
         map: "./images/maps/map2.png",
-        battle: "./images/maps/Forest_1.png"
+        battle: "./images/maps/Forest_1.png",
+        obstacle: "./images/obstacle.png"
       },
       {
         map: "./images/maps/swampmap.png",
-        battle: "./images/maps/Fetid_Swamp_Battle_Background.jpg"
+        battle: "./images/maps/Fetid_Swamp_Battle_Background.jpg",
+        obstacle: "./images/Evil-Treant.png"
       }
     ],
     [
       {
         map: "./images/maps/desertmap.png",
-        battle: "./images/maps/desertback.png"
+        battle: "./images/maps/desertback.png",
+        obstacle: "./images/Tauntaun-skull-and-bones.png"
       },
       {
         map: "./images/maps/ruinsmap.png",
-        battle: "./images/maps/ruinsback.png"
+        battle: "./images/maps/ruinsback.png",
+        obstacle: "./images/obs.png"
       },
       {
         map: "./images/maps/volvanicmap.png",
-        battle: "./images/maps/volvanicback.jpg"
+        battle: "./images/maps/volvanicback.jpg",
+        obstacle: "./images/Tauntaun-skull-and-bones.png"
+
       }
     ]
   ];
-  this.chest = [[], [], []];
-  this.obstacles = [[], [], []];
   this.img = new Image();
   this.mapIndexY = 0;
   this.mapIndexX = 0;
   this.img.src = this.maps[this.mapIndexY][this.mapIndexX].map;
+  //chest and obstacles generated
+  this.chest = [[], [], []];
+  this.obstacles = [[], [], []];
+
   //obstacle image
   this.obstacleimg = new Image();
-  this.obstacleimg.src = "./images/obs.png";
+  this.obstacleimg.src = this.maps[this.mapIndexY][this.mapIndexX].obstacle;
   //boss images
   this.bossmap = new Image();
-  this.bossmap.src = "./images/Enemies/sleeping-dragon-png-3.png";
+  this.bossmap.src = "./images/Enemies/funko-pop!deathwing.png";
   this.bossmapX = this.game.canvas.width / 2 - 150;
   this.bossmapY = this.game.canvas.height / 2 - 100;
   //objects
@@ -63,6 +76,26 @@ function Map(game) {
   this.potionimg.src = "./images/healpotion.png";
   this.elixirimg = new Image();
   this.elixirimg.src = "./images/Elixir_of_Life.png";
+  //inventory
+  this.bagicon = new Image();
+  this.bagicon.src = "./images/inventory/bag-512.png";
+  this.openinventory = false;
+  this.inventory = new Image();
+  this.inventory.src = "./images/inventory/Inventory.png";
+  //inventory items
+  this.items = ["sword", "breastplate", "shield", "helmet"];
+  this.sword = new Image();
+  this.sword.src = "./images/inventory/MasterSword.png";
+  this.haveSword = false;
+  this.breastplate = new Image();
+  this.breastplate.src = "./images/inventory/armor.png";
+  this.haveBreastplate = false;
+  this.shield = new Image();
+  this.shield.src = "./images/inventory/hyruleshield.png";
+  this.haveShield = false;
+  this.helmet = new Image();
+  this.helmet.src = "./images/inventory/helmet.png";
+  this.haveHelmet = false;
   //legend map
   this.legendmapstatus = false;
   this.legendmapicon = new Image();
@@ -103,6 +136,7 @@ Map.prototype.printMap = function() {
   ctx.fillText("E:", 30, 85);
   ctx.fillText("R:", 30, 135);
   ctx.fillText("M:", 1070, 750);
+  ctx.fillText("I:", 1075, 65);
   ctx.fillText(this.game.char.objects.potion, 105, 85);
   ctx.fillText(this.game.char.objects.elixir, 105, 135);
   ctx.drawImage(this.potionimg, 50, 50, 50, 50);
@@ -145,6 +179,26 @@ Map.prototype.printMap = function() {
       70,
       70
     );
+  }
+  //inventory
+  ctx.fillStyle = "#ffffff";
+  ctx.drawImage(this.bagicon, 1100, 20, 70, 70);
+  if (this.openinventory) {
+    ctx.drawImage(this.inventory, 800, 0, 400, 400);
+    ctx.fillText("Strength:" + this.game.char.strength, 810, 50);
+    ctx.fillText("Spell:" + this.game.char.magStrength, 810, 90);
+    if (this.haveSword) {
+      ctx.drawImage(this.sword, 825, 150, 60, 135);
+    }
+    if (this.haveBreastplate) {
+      ctx.drawImage(this.breastplate, 930, 140, 140, 150);
+    }
+    if (this.haveShield) {
+      ctx.drawImage(this.shield, 1120, 150, 60, 135);
+    }
+    if (this.haveHelmet) {
+      ctx.drawImage(this.helmet, 965, 10, 70, 90);
+    }
   }
   //boss
   if (this.mapIndexX === 2 && this.mapIndexY == 2) {
@@ -193,6 +247,7 @@ Map.prototype.mapChange = function() {
 Map.prototype.mapSelect = function(indexX, indexY) {
   this.img.src = this.maps[indexX][indexY].map;
   this.game.combat.battleBackground.src = this.maps[indexX][indexY].battle;
+  this.obstacleimg.src = this.maps[indexX][indexY].obstacle;
 };
 
 Map.prototype.chestGenerator = function() {
@@ -215,6 +270,8 @@ Map.prototype.chestGenerator = function() {
 
 Map.prototype.chestLoot = function() {
   var random = Math.floor(Math.random() * 100);
+  var random2 = Math.floor(Math.random() * 100);
+  var that = this;
   if (random < 70) {
     var number = Math.floor(Math.random() * (3 - 1) + 1);
     this.game.char.objects.potion += number;
@@ -227,6 +284,11 @@ Map.prototype.chestLoot = function() {
     this.game.char.objects.elixir += number;
     this.game.combat.textBar("The chest contains  " + number + " elixir");
   }
+  setTimeout(function() {
+    if (random2 < 70) {
+      that.itemApply(that.items);
+    }
+  }, 1500);
 };
 Map.prototype.obstacleGenerator = function() {
   for (var j = 0; j < 3; j++) {
@@ -260,4 +322,37 @@ Map.prototype.obstacleGenerator = function() {
       );
     }
   }
+};
+
+Map.prototype.itemApply = function(itemArr) {
+  itemArr.sort(function(a, b){return 0.5 - Math.random()});
+  switch (itemArr[0]) {
+    case "sword":
+      this.haveSword = true;
+      this.game.char.strength += 10;
+      this.game.char.magStrength += 5;
+      this.game.combat.textBar("You got a sword!");
+      break;
+
+    case "breastplate":
+      this.haveBreastplate = true;
+      this.game.char.maxHP += 15;
+      this.game.combat.textBar("You got a breastplate!");
+      break;
+
+    case "helmet":
+      this.haveHelmet = true;
+      this.game.char.magStrength += 5;
+      this.game.char.maxHP += 5;
+      this.game.combat.textBar("You got a helmet!");
+      break;
+
+    case "shield":
+      this.haveShield = true;
+      this.game.char.maxHP += 10;
+      this.game.char.strength += 5;
+      this.game.combat.textBar("You got a shield!");
+      break;
+  }
+  itemArr.shift();
 };

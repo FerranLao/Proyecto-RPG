@@ -4,6 +4,8 @@ function Combat(game) {
   this.charPosY = 350;
   this.enemyPosX = 700;
   this.enemyPosY = 80;
+  this.enemyHeigth=300;
+  this.enemyWidth=300;
   this.charImg = new Image();
   this.charImg.src = "./images/altair.png";
   this.battleBackground = new Image();
@@ -68,8 +70,8 @@ Combat.prototype.print = function() {
     this.game.enemy.enemyimage,
     this.enemyPosX,
     this.enemyPosY,
-    300,
-    300
+    this.enemyWidth,
+    this.enemyHeigth
   );
   ctx.drawImage(this.charImg, this.charPosX, this.charPosY, 500, 700);
   if (this.game.char.def) {

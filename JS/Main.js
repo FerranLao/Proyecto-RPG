@@ -7,7 +7,7 @@ window.onload = function() {
 
   window.onkeydown = function(e) {
     if (!game.combatStatus) {
-      game.char.mapInteraction(e.key);      
+      game.char.mapInteraction(e.key);
     }
     if (game.gameOver) {
       game = new Game();
@@ -69,13 +69,16 @@ window.onload = function() {
   function runBtn() {
     if (game.combatStatus) {
       delay();
+      if(game.finalBoss){
+        game.combat.textBar("You can't scape COWARD!!")
+      }else{
       if (game.char.Run()) {
         game.combatStatus = false;
         game.newEnemy();
       } else {
         game.combat.textBar("You tried to escape and failed");
         game.combatFlow();
-      }
+      }}
     }
   }
   document.getElementById("runbtn").addEventListener("click", runBtn);

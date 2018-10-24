@@ -10,6 +10,8 @@ function Game() {
   this.gameoverimg.src = "./images/gameover.jpg";
   this.combatStatus = false;
   this.gameOver = false;
+  this.finalBoss = false;
+  
 }
 
 Game.prototype.start = function() {
@@ -25,10 +27,14 @@ Game.prototype.newEnemy = function() {
 Game.prototype.combatFlow = function() {
   var that = this;
   if (this.char.win()) {
+    
     //this.char.currentHP = this.char.maxHP;
     this.enemy.loot();
     this.enemy.giveExp();
     setTimeout(function() {
+      if(that.finalBoss){
+        that.gameOver=true;
+        that.gameoverimg.src="./images/victory.jpg"}
       that.newEnemy();
       that.combatStatus = false;
       document.querySelector(".combat_menu").className = "combat_menu off";
