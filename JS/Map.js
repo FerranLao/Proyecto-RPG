@@ -337,6 +337,7 @@ Map.prototype.itemApply = function(itemArr) {
     case "breastplate":
       this.haveBreastplate = true;
       this.game.char.maxHP += 15;
+      this.game.char.currentHP += 15;
       this.game.combat.textBar("You got a breastplate!");
       break;
 
@@ -344,12 +345,14 @@ Map.prototype.itemApply = function(itemArr) {
       this.haveHelmet = true;
       this.game.char.magStrength += 5;
       this.game.char.maxHP += 5;
+      this.game.char.currentHP += 5;
       this.game.combat.textBar("You got a helmet!");
       break;
 
     case "shield":
       this.haveShield = true;
       this.game.char.maxHP += 10;
+      this.game.char.currentHP += 10;
       this.game.char.strength += 5;
       this.game.combat.textBar("You got a shield!");
       break;

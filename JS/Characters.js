@@ -131,6 +131,7 @@ Character.prototype.mapInteraction = function(key) {
 
 Character.prototype.defense = function() {
   this.game.combat.textBar("You adopted a defensive position");
+  this.game.defsound.play()
   this.def = true;
 };
 
@@ -148,6 +149,7 @@ Character.prototype.lose = function() {
     this.currentHP = 0;
     this.game.combat.textBar("YOU DIED!");
     setTimeout(function() {
+      that.game.song.pause()
       that.game.nelson.play();
       that.game.gameoverimg.src = "./images/gameover.jpg";
       that.game.gameOver = true;
@@ -161,6 +163,8 @@ Character.prototype.combatStart = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= this.combatChance) {
     this.game.combatStatus = true;
+    this.game.song.pause()
+    this.game.battletheme.play()
     return true;
   }
 };
@@ -232,7 +236,6 @@ Character.prototype.elixir = function() {
 };
 
 Character.prototype.lvlUp = function() {
-  this.game.lvlupsound.play();
   this.maxHP = 50 + 10 * this.level;
   this.currentHP = this.maxHP;
   this.maxMP = 15 + 5 * this.level;

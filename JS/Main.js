@@ -7,8 +7,9 @@ window.onload = function() {
   game.start();
 
   window.onkeydown = function(e) {
-    game.song.play()
+    
     if (!game.combatStatus) {
+      game.song.play()
       game.char.mapInteraction(e.key);
       
     }

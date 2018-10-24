@@ -109,6 +109,7 @@ Enemies.prototype.magic = function() {
       "You recived " + this.dmgDone + " points of damage"
     );
   } else {
+    this.game.chargesound.play();
     this.charging = true;
     this.game.combat.textBar("The enemy is charging energy");
   }
@@ -130,7 +131,7 @@ Enemies.prototype.behavior = function() {
 };
 
 Enemies.prototype.bossFight = function() {
-  if (this.game.map.mapIndexY === 2 && this.game.map.mapIndexX === 2) {
+  if (this.game.map.mapIndexY === 2 && this.game.map.mapIndexX === 2 && !this.game.finalBoss) {
     
     if (
       this.game.map.bossmapX + 190 >= this.game.char.positionX &&
@@ -140,6 +141,8 @@ Enemies.prototype.bossFight = function() {
     ) {
       this.game.finalBoss=true;
       this.game.combatStatus= true;
+      this.game.song.pause();
+      this.game.bosstheme.play();
       this.enemyimage.src="./images/Enemies/Deathwing_on_ground.png";
       //this.game.combat.battleBackground.src="./images/Enemies/deathwing.jpg"
       this.level="???"
