@@ -20,11 +20,11 @@ function Character(game) {
   //movimiento
   this.positionX = 490;
   this.positionY = 280;
-  this.width = 50;
-  this.height = 50;
+  this.width = 70;
+  this.height = 70;
   this.direction;
   this.speed = 5;
-  this.combatChance = -1;
+  this.combatChance = 1;
   this.img = new Image();
   this.img.src = "./images/altairmapd.png";
   this.moveright=["./images/altairmap1d.png","./images/altairmap2d.png","./images/altairmap1d.png","./images/altairmap3d.png"];
@@ -306,4 +306,11 @@ Character.prototype.move= function(){
     }
    
   } this.movecounter=0}
+}
+Character.prototype.stand=function(){
+  if(this.orientation === "d"){
+    this.img.src="./images/altairmapd.png"
+  }else{
+    this.img.src="./images/altairmapi.png"  }
+  
 }

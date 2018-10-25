@@ -19,6 +19,9 @@ window.onload = function() {
       game.map.obstacleGenerator();
     }
   };
+  window.onkeyup = function(){
+    game.char.stand();
+  }
 
   function attackBtn() {
     if (game.combatStatus) {
