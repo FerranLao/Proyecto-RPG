@@ -13,10 +13,10 @@ function Game() {
   this.finalBoss = false;
   //sounds and music
   this.song= new Audio("./sounds/song.mp3");
-  this.song.volume = 0.1;
+  this.song.volume = 0.3;
   this.song.loop=true
   this.battletheme= new Audio("./sounds/battle-Theme.mp3");
-  this.battletheme.volume= 0.2;
+  this.battletheme.volume= 0.3;
   this.battletheme.loop=true
   this.chestsound= new Audio("./sounds/door.wav");
   this.drinksound=new Audio("./sounds/bubble2.wav");

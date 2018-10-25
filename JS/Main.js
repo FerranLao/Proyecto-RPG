@@ -4,12 +4,12 @@ window.onload = function() {
   
   game.map.chestGenerator();
   game.map.obstacleGenerator();
-  game.start();
+  game.start(); game.song.play()
 
   window.onkeydown = function(e) {
     
     if (!game.combatStatus) {
-      game.song.play()
+    
       game.char.mapInteraction(e.key);
       
     }
