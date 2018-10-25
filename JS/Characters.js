@@ -24,9 +24,15 @@ function Character(game) {
   this.height = 50;
   this.direction;
   this.speed = 5;
-  this.combatChance = 1;
+  this.combatChance = -1;
   this.img = new Image();
-  this.img.src = "./images/castlecrasher.png";
+  this.img.src = "./images/altairmapd.png";
+  this.moveright=["./images/altairmap1d.png","./images/altairmap2d.png","./images/altairmap1d.png","./images/altairmap3d.png"];
+  this.moveleft=["./images/altairmap1i.png","./images/altairmap2i.png","./images/altairmap1i.png","./images/altairmap3i.png"];
+  this.right=0;
+  this.left= 0;
+  this.orientation="d"
+  this.movecounter=0
 }
 Character.prototype.print = function() {
   var ctx = this.game.ctx;
@@ -80,7 +86,8 @@ Character.prototype.mapInteraction = function(key) {
 
     case "a":
       this.direction = "a";
-      this.img.src = "./images/castlecrasher2.png";
+      this.orientation="a"
+  
       this.positionX -= this.speed;
       this.combatStart();
       break;
@@ -93,7 +100,8 @@ Character.prototype.mapInteraction = function(key) {
 
     case "d":
       this.direction = "d";
-      this.img.src = "./images/castlecrasher.png";
+      this.orientation= "d";
+      
       this.positionX += this.speed;
       this.combatStart();
       break;
@@ -123,6 +131,7 @@ Character.prototype.mapInteraction = function(key) {
   }
   this.game.map.mapChange();
   this.openChest();
+  this.move()
   if (this.obstacleCollision()) {
     this.positionX = positionX;
     this.positionY = positionY;
@@ -279,4 +288,22 @@ Character.prototype.obstacleCollision = function() {
     return true;
   }
 };
-
+Character.prototype.move= function(){
+ this.movecounter+=1
+  if(this.movecounter===3){
+  if(this.orientation==="d"){
+    this.right+=1;
+    this.img.src=this.moveright[this.right];
+    if(this.right===3){
+      this.right=0;
+    }
+  }
+  if(this.orientation==="a"){
+    this.left+=1;
+    this.img.src=this.moveleft[this.left];
+    if(this.left===3){
+      this.left=0;
+    }
+   
+  } this.movecounter=0}
+}

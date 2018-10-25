@@ -211,7 +211,7 @@ Map.prototype.mapChange = function() {
   if (char.positionY >= 800 && char.direction === "s") {
     char.positionY = -30;
     if (this.mapIndexY === this.maps.length - 1) {
-      this.mapIndexY = 0;
+      this.game.char.positionY=785;
     } else {
       this.mapIndexY += 1;
     }
@@ -219,8 +219,7 @@ Map.prototype.mapChange = function() {
   if (char.positionX <= -30 && char.direction === "a") {
     char.positionX = 1200;
     if (this.mapIndexX == 0) {
-      console.log("jsdhf");
-      this.mapIndexX = this.maps.length - 1;
+      this.game.char.positionX=-25;
     } else {
       this.mapIndexX -= 1;
     }
@@ -228,7 +227,7 @@ Map.prototype.mapChange = function() {
   if (char.positionY <= -30 && char.direction === "w") {
     char.positionY = 800;
     if (this.mapIndexY === 0) {
-      this.mapIndexY = this.maps.length - 1;
+      this.game.char.positionY=-25;
     } else {
       this.mapIndexY -= 1;
     }
@@ -236,7 +235,7 @@ Map.prototype.mapChange = function() {
   if (char.positionX >= 1200 && char.direction === "d") {
     char.positionX = -30;
     if (this.mapIndexX === this.maps.length - 1) {
-      this.mapIndexX = 0;
+      this.game.char.positionX=1195;
     } else {
       this.mapIndexX += 1;
     }
