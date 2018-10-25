@@ -24,7 +24,7 @@ function Character(game) {
   this.height = 70;
   this.direction;
   this.speed = 5;
-  this.combatChance = 1;
+  this.combatChance = 0;
   this.img = new Image();
   this.img.src = "./images/altairmapd.png";
   this.moveright=["./images/altairmap1d.png","./images/altairmap2d.png","./images/altairmap1d.png","./images/altairmap3d.png"];
