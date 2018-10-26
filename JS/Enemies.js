@@ -4,7 +4,7 @@ function Enemies(game) {
   this.level = this.game.char.level;
   this.maxHP = Math.round(Math.random() * (40 - 20) + 20) + this.level * 10;
   this.currentHP = this.maxHP;
-  this.strenght = Math.round(Math.random() * (7 - 3) + 3);
+  this.strenght = Math.round(Math.random() * (7 - 3) + 3) + this.level;
   this.givenExp =
     Math.round(Math.random() * (300 - 200) + 200) + 30 * this.level;
   //enemy images

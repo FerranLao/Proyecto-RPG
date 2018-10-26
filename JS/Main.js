@@ -5,23 +5,21 @@ window.onload = function() {
   game.map.obstacleGenerator();
   game.start();
   window.onkeydown = function(e) {
-    
     if (!game.combatStatus) {
-      game.song.play()
       game.char.mapInteraction(e.key);
-      
     }
     if (game.gameOver) {
       game = new Game();
-      game.gameOver=false;
-      game.combatStatus=false;
+      game.gameOver = false;
+      game.combatStatus = false;
+      game.song.play();
       game.map.chestGenerator();
       game.map.obstacleGenerator();
     }
   };
-  window.onkeyup = function(){
+  window.onkeyup = function() {
     game.char.stand();
-  }
+  };
 
   function attackBtn() {
     if (game.combatStatus) {
@@ -76,16 +74,17 @@ window.onload = function() {
   function runBtn() {
     if (game.combatStatus) {
       delay();
-      if(game.finalBoss){
-        game.combat.textBar("You can't scape COWARD!!")
-      }else{
-      if (game.char.Run()) {
-        game.combatStatus = false;
-        game.newEnemy();
+      if (game.finalBoss) {
+        game.combat.textBar("You can't scape COWARD!!");
       } else {
-        game.combat.textBar("You tried to escape and failed");
-        game.combatFlow();
-      }}
+        if (game.char.Run()) {
+          game.combatStatus = false;
+          game.newEnemy();
+        } else {
+          game.combat.textBar("You tried to escape and failed");
+          game.combatFlow();
+        }
+      }
     }
   }
   document.getElementById("runbtn").addEventListener("click", runBtn);

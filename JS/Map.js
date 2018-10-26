@@ -62,7 +62,6 @@ function Map(game) {
   //chest and obstacles generated
   this.chest = [[], [], []];
   this.obstacles = [[], [], []];
-
   //obstacle image
   this.obstacleimg = new Image();
   this.obstacleimg.src = this.maps[this.mapIndexY][this.mapIndexX].obstacle;

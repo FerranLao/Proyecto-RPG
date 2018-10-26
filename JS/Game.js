@@ -13,10 +13,10 @@ function Game() {
   this.finalBoss = false;
   //sounds and music
   this.song = new Audio("./sounds/song.mp3");
-  this.song.volume = 0.3;
+  this.song.volume = 0.2;
   this.song.loop = true;
   this.battletheme = new Audio("./sounds/battle-Theme.mp3");
-  this.battletheme.volume = 0.3;
+  this.battletheme.volume = 0.2;
   this.battletheme.loop = true;
   this.chestsound = new Audio("./sounds/door.wav");
   this.drinksound = new Audio("./sounds/bubble2.wav");
@@ -31,7 +31,7 @@ function Game() {
     "./sounds/Swords_Collide-Sound_Explorer-2015600826.mp3"
   );
   this.bosstheme = new Audio("./sounds/16-one-winged-angel.mp3");
-  this.bosstheme.volume = 0.5;
+  this.bosstheme.volume = 0.2;
   this.victorytheme = new Audio("./sounds/victory_fanfare.mp3");
   this.wingssound = new Audio("./sounds/wings.mp3");
   this.roarsound = new Audio("./sounds/Roar.mp3");
