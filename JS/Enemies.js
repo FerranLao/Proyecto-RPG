@@ -30,6 +30,8 @@ function Enemies(game) {
   this.charging = false;
   this.def = false;
   this.dmgDone = 0;
+  this.bossFase1=false;
+  this.bossFase2=false;
 }
 
 Enemies.prototype.attack = function() {
@@ -148,8 +150,8 @@ Enemies.prototype.bossFight = function() {
       this.level="???"
       this.maxHP=300
       this.currentHP=300;
-      this.strenght=20;
-         
+      this.strenght=20;    
+      this.game.combat.enemyWidth=500  
     }
   }
 };
@@ -168,7 +170,23 @@ Enemies.prototype.loot=function(){
   }else{
     this.game.combat.textBar("the enemy didn't drop anything")
   }
+  
 }
 Enemies.prototype.bossFases = function(){
+  if(this.game.finalBoss){
+    if(this.currentHP<100 && !this.bossFase2){
+      this.bossFase2=true;
+      this.enemyimage.src="";
+      this.game.combat.battleBackground.src="./images/Enemies/deathwing.jpg";
+      this.game.roarsound.play();
+      this.game.combat.textBar("The enemy enrages!");
+    }
+    if(this.currentHP<200 && !this.bossFase1){
+      this.bossFase1=true;
+      this.enemyimage.src="./images/Enemies/Deathwing_png.png";
+      this.game.combat.textBar("The enemy start to fly!");
+      this.game.wingssound.play();
+    }
+  }
 
 }

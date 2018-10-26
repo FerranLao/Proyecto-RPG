@@ -27,12 +27,22 @@ function Character(game) {
   this.combatChance = 0;
   this.img = new Image();
   this.img.src = "./images/altairmapd.png";
-  this.moveright=["./images/altairmap1d.png","./images/altairmap2d.png","./images/altairmap1d.png","./images/altairmap3d.png"];
-  this.moveleft=["./images/altairmap1i.png","./images/altairmap2i.png","./images/altairmap1i.png","./images/altairmap3i.png"];
-  this.right=0;
-  this.left= 0;
-  this.orientation="d"
-  this.movecounter=0
+  this.moveright = [
+    "./images/altairmap1d.png",
+    "./images/altairmap2d.png",
+    "./images/altairmap1d.png",
+    "./images/altairmap3d.png"
+  ];
+  this.moveleft = [
+    "./images/altairmap1i.png",
+    "./images/altairmap2i.png",
+    "./images/altairmap1i.png",
+    "./images/altairmap3i.png"
+  ];
+  this.right = 0;
+  this.left = 0;
+  this.orientation = "d";
+  this.movecounter = 0;
 }
 Character.prototype.print = function() {
   var ctx = this.game.ctx;
@@ -61,7 +71,7 @@ Character.prototype.attack = function() {
       that.game.combat.charPosY = posy;
     }
   }, 16);
-  this.game.attacksound.play()
+  this.game.attacksound.play();
   if (this.game.enemy.def) {
     this.game.enemy.currentHP =
       game.enemy.currentHP - Math.round(this.strength / 2);
@@ -86,8 +96,8 @@ Character.prototype.mapInteraction = function(key) {
 
     case "a":
       this.direction = "a";
-      this.orientation="a"
-  
+      this.orientation = "a";
+
       this.positionX -= this.speed;
       this.combatStart();
       break;
@@ -100,8 +110,8 @@ Character.prototype.mapInteraction = function(key) {
 
     case "d":
       this.direction = "d";
-      this.orientation= "d";
-      
+      this.orientation = "d";
+
       this.positionX += this.speed;
       this.combatStart();
       break;
@@ -123,15 +133,15 @@ Character.prototype.mapInteraction = function(key) {
       break;
 
     case "i":
-      if (this.game.map.openinventory){
-        this.game.map.openinventory=false;
-      }else{
-        this.game.map.openinventory=true;
+      if (this.game.map.openinventory) {
+        this.game.map.openinventory = false;
+      } else {
+        this.game.map.openinventory = true;
       }
   }
   this.game.map.mapChange();
   this.openChest();
-  this.move()
+  this.move();
   if (this.obstacleCollision()) {
     this.positionX = positionX;
     this.positionY = positionY;
@@ -140,7 +150,7 @@ Character.prototype.mapInteraction = function(key) {
 
 Character.prototype.defense = function() {
   this.game.combat.textBar("You adopted a defensive position");
-  this.game.defsound.play()
+  this.game.defsound.play();
   this.def = true;
 };
 
@@ -158,11 +168,11 @@ Character.prototype.lose = function() {
     this.currentHP = 0;
     this.game.combat.textBar("YOU DIED!");
     setTimeout(function() {
-      that.game.song.pause()
+      that.game.song.pause();
+      that.game.bosstheme.pause();
       that.game.nelson.play();
       that.game.gameoverimg.src = "./images/gameover.jpg";
       that.game.gameOver = true;
-      that.game.combatStatus = false;
     }, 1000);
     return true;
   }
@@ -172,8 +182,8 @@ Character.prototype.combatStart = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= this.combatChance) {
     this.game.combatStatus = true;
-    this.game.song.pause()
-    this.game.battletheme.play()
+    this.game.song.pause();
+    this.game.battletheme.play();
     return true;
   }
 };
@@ -258,6 +268,8 @@ Character.prototype.Run = function() {
   var random = Math.round(Math.random() * 100);
   if (random <= 50) {
     document.querySelector(".combat_menu").className = "combat_menu off";
+    this.game.battletheme.pause();
+    this.game.song.play();
     return true;
   }
 };
@@ -267,7 +279,7 @@ Character.prototype.openChest = function() {
   ];
   if (this.game.collisions(this, current)) {
     if (!current.open) {
-      this.game.chestsound.play()
+      this.game.chestsound.play();
       this.game.map.chestLoot();
       current.open = true;
       current.img.src = "./images/openchest.png";
@@ -288,29 +300,30 @@ Character.prototype.obstacleCollision = function() {
     return true;
   }
 };
-Character.prototype.move= function(){
- this.movecounter+=1
-  if(this.movecounter===3){
-  if(this.orientation==="d"){
-    this.right+=1;
-    this.img.src=this.moveright[this.right];
-    if(this.right===3){
-      this.right=0;
+Character.prototype.move = function() {
+  this.movecounter += 1;
+  if (this.movecounter === 3) {
+    if (this.orientation === "d") {
+      this.right += 1;
+      this.img.src = this.moveright[this.right];
+      if (this.right === 3) {
+        this.right = 0;
+      }
     }
+    if (this.orientation === "a") {
+      this.left += 1;
+      this.img.src = this.moveleft[this.left];
+      if (this.left === 3) {
+        this.left = 0;
+      }
+    }
+    this.movecounter = 0;
   }
-  if(this.orientation==="a"){
-    this.left+=1;
-    this.img.src=this.moveleft[this.left];
-    if(this.left===3){
-      this.left=0;
+};
+Character.prototype.stand = function() {
+  if (this.orientation === "d") {
+    this.img.src = "./images/altairmapd.png";
+  } else {
+    this.img.src = "./images/altairmapi.png";
     }
-   
-  } this.movecounter=0}
-}
-Character.prototype.stand=function(){
-  if(this.orientation === "d"){
-    this.img.src="./images/altairmapd.png"
-  }else{
-    this.img.src="./images/altairmapi.png"  }
-  
-}
+};

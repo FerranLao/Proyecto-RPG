@@ -1,11 +1,9 @@
 var game;
 window.onload = function() {
   game = new Game();
-  
   game.map.chestGenerator();
   game.map.obstacleGenerator();
   game.start();
-
   window.onkeydown = function(e) {
     
     if (!game.combatStatus) {
