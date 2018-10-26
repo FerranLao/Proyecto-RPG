@@ -26,7 +26,8 @@ function Combat(game) {
   this.fireballY = 450;
   this.chargeAura = new Image();
   this.chargeAura.src = "./images/chargeUp.png";
-}
+};
+
 Combat.prototype.textBar = function(message) {
   var textArea = document.querySelector(".textArea");
   textArea.innerText = message;

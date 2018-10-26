@@ -44,6 +44,7 @@ function Character(game) {
   this.orientation = "d";
   this.movecounter = 0;
 }
+
 Character.prototype.print = function() {
   var ctx = this.game.ctx;
   var that = this;
@@ -273,6 +274,7 @@ Character.prototype.Run = function() {
     return true;
   }
 };
+
 Character.prototype.openChest = function() {
   var current = this.game.map.chest[this.game.map.mapIndexY][
     this.game.map.mapIndexX
@@ -286,6 +288,7 @@ Character.prototype.openChest = function() {
     }
   }
 };
+
 Character.prototype.obstacleCollision = function() {
   var obstacle1 = this.game.map.obstacles[this.game.map.mapIndexY][
     this.game.map.mapIndexX
@@ -300,6 +303,7 @@ Character.prototype.obstacleCollision = function() {
     return true;
   }
 };
+
 Character.prototype.move = function() {
   this.movecounter += 1;
   if (this.movecounter === 3) {
@@ -320,6 +324,7 @@ Character.prototype.move = function() {
     this.movecounter = 0;
   }
 };
+
 Character.prototype.stand = function() {
   if (this.orientation === "d") {
     this.img.src = "./images/altairmapd.png";

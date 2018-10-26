@@ -7,9 +7,9 @@ function Game() {
   this.combat = new Combat(this);
   this.enemy = new Enemies(this);
   this.gameoverimg = new Image();
-  this.gameoverimg.src = "./images/gameover.jpg";
-  this.combatStatus = false;
-  this.gameOver = false;
+  this.gameoverimg.src = "./images/tittle screen.png";
+  this.combatStatus = true;
+  this.gameOver = true;
   this.finalBoss = false;
   //sounds and music
   this.song = new Audio("./sounds/song.mp3");

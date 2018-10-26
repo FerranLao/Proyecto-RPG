@@ -13,6 +13,8 @@ window.onload = function() {
     }
     if (game.gameOver) {
       game = new Game();
+      game.gameOver=false;
+      game.combatStatus=false;
       game.map.chestGenerator();
       game.map.obstacleGenerator();
     }

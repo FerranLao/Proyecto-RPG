@@ -179,7 +179,7 @@ Map.prototype.printMap = function() {
       70,
       70
     );
-  }
+  };
   //inventory
   ctx.fillStyle = "#ffffff";
   ctx.drawImage(this.bagicon, 1100, 20, 70, 70);

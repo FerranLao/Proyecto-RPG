@@ -155,6 +155,7 @@ Enemies.prototype.bossFight = function() {
     }
   }
 };
+
 Enemies.prototype.loot=function(){
   var random = Math.floor(Math.random() * 100);
   if(random<50){
@@ -171,7 +172,8 @@ Enemies.prototype.loot=function(){
     this.game.combat.textBar("the enemy didn't drop anything")
   }
   
-}
+};
+
 Enemies.prototype.bossFases = function(){
   if(this.game.finalBoss){
     if(this.currentHP<100 && !this.bossFase2){
