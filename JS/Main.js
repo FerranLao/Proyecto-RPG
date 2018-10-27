@@ -5,6 +5,7 @@ window.onload = function() {
   game.map.obstacleGenerator();
   game.start();
   window.onkeydown = function(e) {
+    e.preventDefault()
     if (!game.combatStatus) {
       game.char.mapInteraction(e.key);
     }

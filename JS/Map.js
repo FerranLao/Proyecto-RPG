@@ -311,7 +311,7 @@ Map.prototype.obstacleGenerator = function() {
           !this.game.collisions(obstacle.obstacle2, this.chest[i][j]) &&
           !this.game.collisions(obstacle.obstacle1, this.game.char)
         ) {
-          this.obstacles[j].push(obstacle);
+          this.obstacles[i].push(obstacle);
         }
       } while (
         this.game.collisions(obstacle.obstacle1, this.chest[i][j]) ||
